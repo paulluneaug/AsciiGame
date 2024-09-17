@@ -1,5 +1,7 @@
 #include "Level.h"
 
+#include <sstream>
+
 #include "Box.h"
 #include "Target.h"
 
@@ -28,12 +30,12 @@ unsigned char Level::GetTileAtCoordinates(int x, int y) const
 	return m_grid.GetTileAtCoordinates(x, y);
 }
 
-const Player& Level::GetPlayer()
+const Player& Level::GetPlayer() const
 {
 	return m_player;
 }
 
-const std::vector<Entity*>& Level::GetEntities()
+const std::vector<Entity*>& Level::GetEntities() const
 {
 	return m_entities;
 }
@@ -55,13 +57,20 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 	}
 
 	int width, height;
+	std::getline(levelFile, line); // The first line contains the dimensions of the grid
 
-	levelFile >> width;
-	levelFile >> height;
+	// Parses the line 
+	std::stringstream sStream = std::stringstream();
+	sStream << line;
+
+	sStream >> width;
+	sStream >> height;
+
+	std::cout << "Width = " << width << "\n" << "Height = " << height << std::endl;
 
 	m_grid = Grid(width, height);
-	//m_entities = std::vector<std::unique_ptr<Entity>>(3);
 
+	// Goes through the rest of the file
 	int iLine = 0;
 	while (!levelFile.eof())
 	{
