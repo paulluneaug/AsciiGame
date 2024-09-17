@@ -66,8 +66,6 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 	sStream >> width;
 	sStream >> height;
 
-	std::cout << "Width = " << width << "\n" << "Height = " << height << std::endl;
-
 	m_grid = Grid(width, height);
 
 	// Goes through the rest of the file
@@ -111,12 +109,17 @@ bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar)
 		return true;
 	case 'B':
 		newEntity = new Box(x, y, 'B');
+		break;
 	case 'T':
 		newEntity = new Target(x, y, 'T');
+		break;
 	default:
 		return false;
 	}
 
-	m_entities.push_back(newEntity);
+	if (newEntity != nullptr) {
+		m_entities.push_back(newEntity);
+	}
+	
 	return true;
 }

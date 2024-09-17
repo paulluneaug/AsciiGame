@@ -20,6 +20,7 @@ Entity::Entity(int x, int y, WCHAR character)
 	this->m_y = y;
 	this->m_character = character;
 	this->m_canMove = true;
+	this->m_canDraw = true;
 }
 
 int Entity::GetX() const
@@ -35,6 +36,11 @@ int Entity::GetY() const
 WCHAR Entity::GetChar() const
 {
 	return m_character;
+}
+
+bool Entity::CanDraw() const
+{
+	return m_canDraw;
 }
 
 bool Entity::CanMoveTo(int dx, int dy, const Grid& level, const std::vector<Entity*>& r_allEntities)

@@ -14,9 +14,11 @@ public:
 	int GetX() const;
 	int GetY() const;
 	WCHAR GetChar() const;
+	bool CanDraw() const;
 
 protected:
 
+	bool m_canDraw;
 	int m_x;
 	int m_y;
 	WCHAR m_character;

@@ -43,6 +43,13 @@ void Game::Draw(Level& r_level)
 		}
 	}
 
+	for (Entity* entity : r_level.GetEntities()) {
+		if (entity->CanDraw()) {
+			m_buffer[entity->GetY()][entity->GetX()].Char.UnicodeChar = entity->GetChar();
+		}
+		
+	}
+
 	m_buffer[r_level.GetPlayer().GetY()][r_level.GetPlayer().GetX()].Char.UnicodeChar = r_level.GetPlayer().GetChar();
 
 	WriteConsoleOutput(m_hOutput, (CHAR_INFO*)m_buffer, m_dwBufferSize,
@@ -104,6 +111,8 @@ void Game::Loop()
 	DWORD i;
 	INPUT_RECORD irInBuf[128];
 	DWORD cNumRead;
+
+	Draw(m_level);
 
 	while (!m_stoppedGame) {
 		if (!ReadConsoleInput(
