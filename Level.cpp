@@ -9,9 +9,9 @@ Level::Level() : m_player(0, 0, 'P'), m_grid(0, 0)
 
 Level::~Level()
 {
-	for (Entity* entity : m_entities) 
+	for (Entity* entity : m_entities)
 	{
-		if (entity != NULL) 
+		if (entity != NULL)
 		{
 			delete entity;
 		}
@@ -60,7 +60,7 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 	//m_entities = std::vector<std::unique_ptr<Entity>>(3);
 
 	int iLine = 0;
-	while (!levelFile.eof()) 
+	while (!levelFile.eof())
 	{
 		if (iLine >= height)
 		{
@@ -72,7 +72,7 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 		std::cout << "Reading Line " << line << std::endl;
 
 		int iChar = 0;
-		for (char tileChar : line) 
+		for (char tileChar : line)
 		{
 			if (iChar >= width)
 			{
