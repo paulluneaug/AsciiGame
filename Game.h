@@ -18,7 +18,7 @@ public:
 	Game();
 
 	void Draw(Level& const level);
-	void Draw(std::string const filename);
+	void Draw(const std::string& r_filename);
 	void ClearScreen();
 	void Loop();
 
@@ -40,7 +40,7 @@ private:
 	bool m_stoppedGame;
 
 
-	bool ReadInt(std::string const line, int& out);
+	bool ReadInt(std::string const r_line, int& e_out);
 
 	void ErrorExit(LPCSTR);
 	void KeyEventProc(KEY_EVENT_RECORD);

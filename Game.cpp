@@ -121,7 +121,7 @@ void Game::Loop()
 	}
 }
 
-bool Game::ReadInt(const std::string& r_line, int& r_out)
+bool Game::ReadInt(std::string const r_line, int& r_out)
 {
 	std::istringstream sStream(r_line);
 	int tmp;
