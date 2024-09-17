@@ -64,9 +64,7 @@ C:\Users\oudot\source\repos\AsciiGame\Player.h(11,33): error C2061: syntax error
 C:\Users\oudot\source\repos\AsciiGame\Level.h(34,25): warning C4227: anachronism used: qualifiers on reference are ignored
 C:\Users\oudot\source\repos\AsciiGame\Level.h(35,41): warning C4227: anachronism used: qualifiers on reference are ignored
 C:\Users\oudot\source\repos\AsciiGame\Game.h(20,30): warning C4227: anachronism used: qualifiers on reference are ignored
-C:\Users\oudot\source\repos\AsciiGame\Game.cpp(4,1): error C2512: 'Level': no appropriate default constructor available
-C:\Users\oudot\source\repos\AsciiGame\Level.h(11,7): message : see declaration of 'Level'
-C:\Users\oudot\source\repos\AsciiGame\Game.cpp(25,35): warning C4227: anachronism used: qualifiers on reference are ignored
+C:\Users\oudot\source\repos\AsciiGame\Game.cpp(26,35): warning C4227: anachronism used: qualifiers on reference are ignored
   Level.cpp
 C:\Users\oudot\source\repos\AsciiGame\Entity.h(9,36): error C2061: syntax error: identifier 'Level'
 C:\Users\oudot\source\repos\AsciiGame\Entity.h(10,41): error C2061: syntax error: identifier 'Level'
@@ -114,7 +112,7 @@ C:\Users\oudot\source\repos\AsciiGame\Box.h(10,28): error C2061: syntax error: i
 C:\Users\oudot\source\repos\AsciiGame\Box.h(11,33): error C2061: syntax error: identifier 'Level'
 C:\Users\oudot\source\repos\AsciiGame\Box.h(14,8): error C2143: syntax error: missing ';' before '*'
 C:\Users\oudot\source\repos\AsciiGame\Box.h(14,8): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-C:\Users\oudot\source\repos\AsciiGame\Box.h(14,24): error C2238: unexpected token(s) preceding ';'
+C:\Users\oudot\source\repos\AsciiGame\Box.h(14,25): error C2238: unexpected token(s) preceding ';'
 C:\Users\oudot\source\repos\AsciiGame\Box.h(10,7): error C3668: 'Box::Move': method with override specifier 'override' did not override any base class methods
 C:\Users\oudot\source\repos\AsciiGame\Box.h(11,7): error C3668: 'Box::CanMoveTo': method with override specifier 'override' did not override any base class methods
 C:\Users\oudot\source\repos\AsciiGame\Player.h(7,1): error C2504: 'Entity': base class undefined
