@@ -11,7 +11,11 @@ bool Player::Move(int dx, int dy, Level level)
 		// On cherche les boites qui sont sur (x,y)
 		// On les bouges
 		// Ok c'est moche
+
+		return true;
 	}
+
+	return false;
 }
 
 bool Player::CanMoveTo(int dx, int dy, Level level)

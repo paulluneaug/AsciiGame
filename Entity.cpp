@@ -2,14 +2,16 @@
 
 bool Entity::Move(int dx, int dy, Level level)
 {
-	if (!_canMove) return;
+	if (!_canMove) return false;
 
 	if (!CanMoveTo(dx,dy,level)) {
-		return;
+		return false;
 	}
 
 	this->_x += dx;
 	this->_y += dy;
+
+	return true;
 }
 
 Entity::Entity(int x, int y, char character)

@@ -13,10 +13,13 @@ bool Box::Move(int dx, int dy, Level level)
 			_currentTarget->OnExit();
 		}
 
+		return true;
+
 		// for sur les entities de level
 		// On cherche une cible sur (x,y)
 		// On l'active (OnEnter)
 	}
+	return false;
 }
 
 bool Box::CanMoveTo(int dx, int dy, Level level)
