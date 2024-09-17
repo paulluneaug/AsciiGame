@@ -16,9 +16,9 @@ public:
 
 protected:
 
-	int _x;
-	int _y;
-	WCHAR _character;
-	bool _canMove;
+	int m_x;
+	int m_y;
+	WCHAR m_character;
+	bool m_canMove;
 };
 

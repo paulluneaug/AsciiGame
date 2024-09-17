@@ -11,6 +11,6 @@ public:
 	bool CanMoveTo(int dx, int dy, Level& const level) override;
 
 private:
-	Target* _currentTarget;
+	Target* m_currentTarget;
 };
 

@@ -2,37 +2,37 @@
 
 bool Entity::Move(int dx, int dy, Level& const level)
 {
-	if (!_canMove) return false;
+	if (!m_canMove) return false;
 
 	if (!CanMoveTo(dx,dy,level)) {
 		return false;
 	}
 
-	this->_x += dx;
-	this->_y += dy;
+	this->m_x += dx;
+	this->m_y += dy;
 
 	return true;
 }
 
 Entity::Entity(int x, int y, WCHAR character)
 {
-	this->_x = x;
-	this->_y = y;
-	this->_character = character;
-	this->_canMove = true;
+	this->m_x = x;
+	this->m_y = y;
+	this->m_character = character;
+	this->m_canMove = true;
 }
 
 int Entity::GetX()
 {
-	return _x;
+	return m_x;
 }
 
 int Entity::GetY()
 {
-	return _y;
+	return m_y;
 }
 
 bool Entity::CanMoveTo(int dx, int dy, Level& const level)
 {
-	return level.IsInBound(_x + dx, _y + dy);
+	return level.IsInBound(m_x + dx, m_y + dy);
 }

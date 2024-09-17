@@ -10,7 +10,7 @@ bool Player::Move(int dx, int dy, Level& const level)
 
 		std::vector<Entity*>& const entities = level.GetEntities();
 		for (Entity* entity : entities) {
-			if (dynamic_cast<Box*>(entity) != nullptr && entity->GetX() == _x && entity->GetY() == _y) {
+			if (dynamic_cast<Box*>(entity) != nullptr && entity->GetX() == m_x && entity->GetY() == m_y) {
 				entity->Move(dx, dy, level);
 				break;
 			}
@@ -26,8 +26,8 @@ bool Player::CanMoveTo(int dx, int dy, Level& const level)
 {
 	if (!Entity::CanMoveTo(dx, dy, level)) return false;
 
-	int nextX = _x + dx;
-	int nextY = _y + dy;
+	int nextX = m_x + dx;
+	int nextY = m_y + dy;
 
 	std::vector<Entity*> & const entities = level.GetEntities();
 	for (Entity* entity : entities) {

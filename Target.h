@@ -10,7 +10,8 @@ public:
 	void OnEnter();
 	void OnExit();
 
-private:
-	bool _boxOnTop;
-};
+	bool IsBoxOnTop();
 
+private:
+	bool m_boxOnTop;
+};
