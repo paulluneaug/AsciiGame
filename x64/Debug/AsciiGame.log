@@ -1,0 +1,4 @@
+﻿  Game.cpp
+C:\Users\oudot\source\repos\AsciiGame\Game.h(20,30): warning C4227: anachronism used: qualifiers on reference are ignored
+C:\Users\oudot\source\repos\AsciiGame\Game.cpp(25,35): warning C4227: anachronism used: qualifiers on reference are ignored
+  AsciiGame.vcxproj -> C:\Users\oudot\Source\Repos\AsciiGame\x64\Debug\AsciiGame.exe
