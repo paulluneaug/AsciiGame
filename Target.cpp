@@ -2,15 +2,20 @@
 
 Target::Target(int x, int y, WCHAR character) : Entity(x,y,character)
 {
-    _boxOnTop = false;
+    m_boxOnTop = false;
 }
 
 void Target::OnEnter()
 {
-    _boxOnTop = true;
+    m_boxOnTop = true;
 }
 
 void Target::OnExit()
 {
-    _boxOnTop = false;
+    m_boxOnTop = false;
+}
+
+bool Target::IsBoxOnTop()
+{
+    return m_boxOnTop;
 }

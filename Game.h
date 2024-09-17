@@ -24,20 +24,20 @@ public:
 
 private:
 
-	Level level;
+	Level m_level;
 
 
-	CHAR_INFO _buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
+	CHAR_INFO m_buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
 
-	HANDLE _hOutput;
-	HANDLE _hInput;
-	DWORD fdwSaveOldMode;
+	HANDLE m_hOutput;
+	HANDLE m_hInput;
+	DWORD m_fdwSaveOldMode;
 
-	COORD _dwBufferSize;
-	COORD _dwBufferCoord;
-	SMALL_RECT _rcRegion;
+	COORD m_dwBufferSize;
+	COORD m_dwBufferCoord;
+	SMALL_RECT m_rcRegion;
 
-	bool stoppedGame;
+	bool m_stoppedGame;
 
 
 	bool ReadInt(std::string const line, int& out);

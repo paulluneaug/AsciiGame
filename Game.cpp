@@ -1,24 +1,25 @@
 #include "Game.h"
 
-Game::Game()
+Game::Game() : m_level("Level0.txt")
 {
-    stoppedGame = false;
 
-	_hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
-    _hInput = (HANDLE)GetStdHandle(STD_INPUT_HANDLE);
+    m_stoppedGame = false;
 
-	_buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
+	m_hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
+    m_hInput = (HANDLE)GetStdHandle(STD_INPUT_HANDLE);
 
-	_dwBufferSize = { SCREEN_WIDTH,SCREEN_HEIGHT };
-	_dwBufferCoord = { 0, 0 };
-	_rcRegion = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
+	m_buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
+
+	m_dwBufferSize = { SCREEN_WIDTH,SCREEN_HEIGHT };
+	m_dwBufferCoord = { 0, 0 };
+	m_rcRegion = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
 
 
-    if (!GetConsoleMode(_hInput, &fdwSaveOldMode))
+    if (!GetConsoleMode(m_hInput, &m_fdwSaveOldMode))
         ErrorExit("GetConsoleMode");
 
     DWORD  fdwMode = ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT;
-    if (!SetConsoleMode(_hInput, fdwMode))
+    if (!SetConsoleMode(m_hInput, fdwMode))
         ErrorExit("SetConsoleMode");
 }
 
@@ -48,34 +49,34 @@ void Game::Draw(std::string const filename)
         for (int iWidth = 0; iWidth < SCREEN_WIDTH; iWidth++) {
 
             if (iWidth <= fileWidth && jHeight < fileHeight) {
-                _buffer[jHeight][iWidth].Char.UnicodeChar = line[iWidth];
+                m_buffer[jHeight][iWidth].Char.UnicodeChar = line[iWidth];
             }
             else {
-                _buffer[jHeight][iWidth].Char.UnicodeChar = ' ';
+                m_buffer[jHeight][iWidth].Char.UnicodeChar = ' ';
             }
 
-            _buffer[jHeight][iWidth].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
+            m_buffer[jHeight][iWidth].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
         }
     }
 
     file.close();
     file.clear();
 
-    WriteConsoleOutput(_hOutput, (CHAR_INFO*)_buffer, _dwBufferSize,
-        _dwBufferCoord, &_rcRegion);
+    WriteConsoleOutput(m_hOutput, (CHAR_INFO*)m_buffer, m_dwBufferSize,
+        m_dwBufferCoord, &m_rcRegion);
 }
 
 void Game::ClearScreen()
 {
     for (int iWidth = 0; iWidth < SCREEN_WIDTH; iWidth++) {
         for (int jHeight = 0; jHeight < SCREEN_HEIGHT; jHeight++) {
-            _buffer[jHeight][iWidth].Char.UnicodeChar = ' ';
-            _buffer[jHeight][iWidth].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
+            m_buffer[jHeight][iWidth].Char.UnicodeChar = ' ';
+            m_buffer[jHeight][iWidth].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
         }
     }
 
-    WriteConsoleOutput(_hOutput, (CHAR_INFO*)_buffer, _dwBufferSize,
-        _dwBufferCoord, &_rcRegion);
+    WriteConsoleOutput(m_hOutput, (CHAR_INFO*)m_buffer, m_dwBufferSize,
+        m_dwBufferCoord, &m_rcRegion);
 }
 
 void Game::Loop()
@@ -84,9 +85,9 @@ void Game::Loop()
     INPUT_RECORD irInBuf[128];
     DWORD cNumRead;
 
-    while (!stoppedGame) {
+    while (!m_stoppedGame) {
         if (!ReadConsoleInput(
-            _hInput,      // input buffer handle
+            m_hInput,      // input buffer handle
             irInBuf,     // buffer to read into
             128,         // size of read buffer
             &cNumRead)) // number of records read
@@ -135,7 +136,7 @@ VOID Game::ErrorExit(LPCSTR lpszMessage)
 
     // Restore input mode on exit.
 
-    SetConsoleMode(_hOutput, fdwSaveOldMode);
+    SetConsoleMode(m_hOutput, m_fdwSaveOldMode);
     ExitProcess(0);
 }
 
@@ -148,7 +149,7 @@ VOID Game::KeyEventProc(KEY_EVENT_RECORD ker)
 
     std::cout << moveX << " " << moveY << std::endl;
 
-    Draw(level);
+    Draw(m_level);
 }
 
 
