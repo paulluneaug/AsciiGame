@@ -8,9 +8,13 @@
 int main() {
 
     Game game = Game();
+    game.Loop();
+    
+    /*
     game.Draw("title.txt");
 
     int asd;
     std::cin >> asd;
+    */
 }
 
