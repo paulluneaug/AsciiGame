@@ -27,7 +27,7 @@ public:
 	bool IsInBound(int x, int y) const;
 	unsigned char GetTileAtCoordinates(int x, int y) const;
 	
-	const Player& GetPlayer() const;
+	Player& GetPlayer();
 	const std::vector<Entity*>& GetEntities() const;
 
 	const Grid& GetGrid() const;

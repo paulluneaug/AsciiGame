@@ -18,7 +18,7 @@ public:
 
 	Game();
 
-	void Draw(const Level& r_level);
+	void Draw(Level& r_level);
 	void Draw(const std::string& r_filename);
 	void ClearScreen();
 	void Loop();

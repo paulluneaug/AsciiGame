@@ -11,8 +11,9 @@ public:
 
 	Entity(int x, int y, WCHAR character);
 
-	int GetX();
-	int GetY();
+	int GetX() const;
+	int GetY() const;
+	WCHAR GetChar() const;
 
 protected:
 

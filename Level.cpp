@@ -30,7 +30,7 @@ unsigned char Level::GetTileAtCoordinates(int x, int y) const
 	return m_grid.GetTileAtCoordinates(x, y);
 }
 
-const Player& Level::GetPlayer() const
+Player& Level::GetPlayer()
 {
 	return m_player;
 }

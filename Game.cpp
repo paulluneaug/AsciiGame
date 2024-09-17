@@ -24,7 +24,7 @@ Game::Game()
 	m_level.LoadLevelAtPath("Level0.txt");
 }
 
-void Game::Draw(const Level& r_level)
+void Game::Draw(Level& r_level)
 {
 	int levelWidth = r_level.GetGrid().GetWidth();
 	int levelHeight = r_level.GetGrid().GetHeight();
@@ -42,6 +42,8 @@ void Game::Draw(const Level& r_level)
 			m_buffer[y][x].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
 		}
 	}
+
+	m_buffer[r_level.GetPlayer().GetY()][r_level.GetPlayer().GetX()].Char.UnicodeChar = r_level.GetPlayer().GetChar();
 
 	WriteConsoleOutput(m_hOutput, (CHAR_INFO*)m_buffer, m_dwBufferSize,
 		m_dwBufferCoord, &m_rcRegion);
@@ -165,7 +167,7 @@ VOID Game::KeyEventProc(KEY_EVENT_RECORD ker)
 	int moveX = ker.wVirtualKeyCode == 37 ? -1 : (ker.wVirtualKeyCode == 39 ? 1 : 0);
 	int moveY = ker.wVirtualKeyCode == 38 ? -1 : (ker.wVirtualKeyCode == 40 ? 1 : 0);
 
-	std::cout << moveX << " " << moveY << std::endl;
+	m_level.GetPlayer().Move(moveX, moveY, m_level.GetGrid(), m_level.GetEntities());
 
 	Draw(m_level);
 }
