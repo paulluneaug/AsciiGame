@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-bool Entity::Move(int dx, int dy, Level level)
+bool Entity::Move(int dx, int dy, Level& const level)
 {
 	if (!_canMove) return false;
 
@@ -14,7 +14,7 @@ bool Entity::Move(int dx, int dy, Level level)
 	return true;
 }
 
-Entity::Entity(int x, int y, char character)
+Entity::Entity(int x, int y, WCHAR character)
 {
 	this->_x = x;
 	this->_y = y;
@@ -22,7 +22,7 @@ Entity::Entity(int x, int y, char character)
 	this->_canMove = true;
 }
 
-bool Entity::CanMoveTo(int dx, int dy, Level level)
+bool Entity::CanMoveTo(int dx, int dy, Level& const level)
 {
 	return true /*level.IsWall(_x + dx, _y + dy) */;
 }

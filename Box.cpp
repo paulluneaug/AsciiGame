@@ -1,11 +1,11 @@
 #include "Box.h"
 
-Box::Box(int x, int y, char character) : Entity(x,y,character)
+Box::Box(int x, int y, WCHAR character) : Entity(x,y,character)
 {
 	_currentTarget = nullptr;
 }
 
-bool Box::Move(int dx, int dy, Level level)
+bool Box::Move(int dx, int dy, Level& const level)
 {
 	if (Entity::Move(dx, dy, level)) {
 
@@ -22,7 +22,7 @@ bool Box::Move(int dx, int dy, Level level)
 	return false;
 }
 
-bool Box::CanMoveTo(int dx, int dy, Level level)
+bool Box::CanMoveTo(int dx, int dy, Level& const level)
 {
 	bool result = Entity::CanMoveTo(dx, dy, level);
 	if (!result) return result;

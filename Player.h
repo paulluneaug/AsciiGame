@@ -5,8 +5,8 @@
 class Player : public Entity
 {
 public:
-	Player(int x, int y, char character);
-	bool Move(int dx, int dy, Level level) override;
-	bool CanMoveTo(int dx, int dy, Level level) override;
+	Player(int x, int y, WCHAR character);
+	bool Move(int dx, int dy, Level& const level) override;
+	bool CanMoveTo(int dx, int dy, Level& const level) override;
 };
 

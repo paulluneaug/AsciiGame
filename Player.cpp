@@ -1,10 +1,10 @@
 #include "Player.h"
 
-Player::Player(int x, int y, char character) : Entity(x,y,character)
+Player::Player(int x, int y, WCHAR character) : Entity(x,y,character)
 {
 }
 
-bool Player::Move(int dx, int dy, Level level)
+bool Player::Move(int dx, int dy, Level& const level)
 {
 	if (Entity::Move(dx, dy, level)) {
 		// for sur les entities de level
@@ -18,7 +18,7 @@ bool Player::Move(int dx, int dy, Level level)
 	return false;
 }
 
-bool Player::CanMoveTo(int dx, int dy, Level level)
+bool Player::CanMoveTo(int dx, int dy, Level& const level)
 {
 	bool result = Entity::CanMoveTo(dx, dy, level);
 	if (!result) return result;

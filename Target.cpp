@@ -1,6 +1,6 @@
 #include "Target.h"
 
-Target::Target(int x, int y, char character) : Entity(x,y,character)
+Target::Target(int x, int y, WCHAR character) : Entity(x,y,character)
 {
     _boxOnTop = false;
 }
