@@ -22,14 +22,19 @@ Entity::Entity(int x, int y, WCHAR character)
 	this->m_canMove = true;
 }
 
-int Entity::GetX()
+int Entity::GetX() const
 {
 	return m_x;
 }
 
-int Entity::GetY()
+int Entity::GetY() const
 {
 	return m_y;
+}
+
+WCHAR Entity::GetChar() const
+{
+	return m_character;
 }
 
 bool Entity::CanMoveTo(int dx, int dy, const Grid& level, const std::vector<Entity*>& r_allEntities)

@@ -43,6 +43,8 @@ void Game::Draw(const Level& r_level)
 		}
 	}
 
+	m_buffer[r_level.GetPlayer().GetY()][r_level.GetPlayer().GetX()].Char.UnicodeChar = r_level.GetPlayer().GetChar();
+
 	WriteConsoleOutput(m_hOutput, (CHAR_INFO*)m_buffer, m_dwBufferSize,
 		m_dwBufferCoord, &m_rcRegion);
 }
