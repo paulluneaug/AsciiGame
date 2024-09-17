@@ -22,7 +22,17 @@ Entity::Entity(int x, int y, WCHAR character)
 	this->_canMove = true;
 }
 
+int Entity::GetX()
+{
+	return _x;
+}
+
+int Entity::GetY()
+{
+	return _y;
+}
+
 bool Entity::CanMoveTo(int dx, int dy, Level& const level)
 {
-	return true /*level.IsWall(_x + dx, _y + dy) */;
+	return level.IsInBound(_x + dx, _y + dy);
 }

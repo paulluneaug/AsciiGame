@@ -30,6 +30,9 @@ public:
 
 	bool IsInBound(int x, int y) const;
 	unsigned char GetTileAtCoordinates(int x, int y) const;
+	
+	Player& const GetPlayer();
+	std::vector<Entity*>& const GetEntities();
 
 private:
 	void LoadLevelAtPath(const std::string& path);
