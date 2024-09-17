@@ -4,7 +4,7 @@
 class Grid
 {
 public:
-	static const unsigned char AIR_TILE;
+	static const unsigned char EMPTY_TILE;
 	static const unsigned char WALL_TILE;
 	static const unsigned char INVALID_TILE;
 

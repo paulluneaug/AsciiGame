@@ -1,7 +1,7 @@
 #include "Grid.h"
 #include "Box.h"
 
-const unsigned char Grid::AIR_TILE = ' ';
+const unsigned char Grid::EMPTY_TILE = ' ';
 const unsigned char Grid::WALL_TILE = '#';
 const unsigned char Grid::INVALID_TILE = '?';
 
@@ -52,8 +52,8 @@ unsigned char Grid::GetTileFromChar(char c) const
 	case '#':
 		return WALL_TILE;
 	case ' ':
-		return AIR_TILE;
+		return EMPTY_TILE;
 	default:
-		return AIR_TILE;
+		return EMPTY_TILE;
 	}
 }

@@ -37,7 +37,10 @@ WCHAR Entity::GetChar() const
 	return m_character;
 }
 
-bool Entity::CanMoveTo(int dx, int dy, const Grid& level, const std::vector<Entity*>& r_allEntities)
+bool Entity::CanMoveTo(int dx, int dy, const Grid& r_grid
+	, const std::vector<Entity*>& r_allEntities)
 {
-	return level.IsInBound(m_x + dx, m_y + dy);
+	int newX = m_x + dx;
+	int newY = m_y + dy;
+	return r_grid.IsInBound(newX, newY) && r_grid.GetTileAtCoordinates(newX, newY) != Grid::WALL_TILE;
 }
