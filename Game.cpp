@@ -2,6 +2,7 @@
 
 Game::Game()
 {
+	m_titleScreen = true;
 	m_stoppedGame = false;
 
 	m_hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
@@ -71,8 +72,10 @@ void Game::Draw(const std::string& r_filename)
 	ReadInt(line, fileHeight);
 
 	for (int y = 0; y < SCREEN_HEIGHT; y++) {
+		if (y < fileHeight) {
+			std::getline(file, line);
+		}
 		for (int x = 0; x < SCREEN_WIDTH; x++) {
-
 			if (x < fileWidth && y < fileHeight) {
 				m_buffer[y][x].Char.UnicodeChar = line[x];
 			}
@@ -112,7 +115,7 @@ void Game::Loop()
 	INPUT_RECORD irInBuf[128];
 	DWORD cNumRead;
 
-	Draw(m_level);
+	Draw("title.txt");
 
 	while (!m_stoppedGame) {
 		if (!ReadConsoleInput(
@@ -173,11 +176,15 @@ VOID Game::KeyEventProc(KEY_EVENT_RECORD ker)
 {
 	if (!ker.bKeyDown) return;
 
-	int moveX = ker.wVirtualKeyCode == 37 ? -1 : (ker.wVirtualKeyCode == 39 ? 1 : 0);
-	int moveY = ker.wVirtualKeyCode == 38 ? -1 : (ker.wVirtualKeyCode == 40 ? 1 : 0);
+	if (m_titleScreen) {
+		m_titleScreen = false;
+	}
+	else {
+		int moveX = ker.wVirtualKeyCode == 37 ? -1 : (ker.wVirtualKeyCode == 39 ? 1 : 0);
+		int moveY = ker.wVirtualKeyCode == 38 ? -1 : (ker.wVirtualKeyCode == 40 ? 1 : 0);
 
-	m_level.GetPlayer().Move(moveX, moveY, m_level.GetGrid(), m_level.GetEntities());
-
+		m_level.GetPlayer().Move(moveX, moveY, m_level.GetGrid(), m_level.GetEntities());
+	}
 	Draw(m_level);
 }
 
