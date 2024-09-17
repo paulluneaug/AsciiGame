@@ -1,9 +1,9 @@
 #include "Grid.h"
 #include "Box.h"
 
-const unsigned char Grid::AIR_TILE = 0;
-const unsigned char Grid::WALL_TILE = 1;
-const unsigned char Grid::INVALID_TILE = 255;
+const unsigned char Grid::AIR_TILE = ' ';
+const unsigned char Grid::WALL_TILE = '#';
+const unsigned char Grid::INVALID_TILE = '?';
 
 Grid::Grid(int width, int height) : m_width(width), m_height(height)
 {
@@ -35,7 +35,7 @@ unsigned char Grid::GetTileAtCoordinates(int x, int y) const
 {
 	if (IsInBound(x, y))
 	{
-		//return m_terrain[x + y * m_width];
+		return GetTileFromChar(m_terrain[x + y * m_width]);
 	}
 	return INVALID_TILE;
 }
@@ -45,7 +45,7 @@ void Grid::SetTile(int x, int y, char newChar)
 	m_terrain[x + y * m_width] = GetTileFromChar(newChar);
 }
 
-unsigned char Grid::GetTileFromChar(char c)
+unsigned char Grid::GetTileFromChar(char c) const
 {
 	switch (c)
 	{

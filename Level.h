@@ -30,6 +30,8 @@ public:
 	const Player& GetPlayer();
 	const std::vector<Entity*>& GetEntities();
 
+	const Grid& GetGrid() const;
+
 private:
 	bool AddEntityAtIfNeeded(int x, int y, char entityChar);
 

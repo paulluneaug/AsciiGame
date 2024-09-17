@@ -26,6 +26,25 @@ Game::Game()
 
 void Game::Draw(const Level& r_level)
 {
+	int levelWidth = r_level.GetGrid().GetWidth();
+	int levelHeight = r_level.GetGrid().GetHeight();
+
+	for (int y = 0; y < SCREEN_HEIGHT; y++) {
+		for (int x = 0; x < SCREEN_WIDTH; x++) {
+
+			if (r_level.IsInBound(x,y)) {
+				m_buffer[y][x].Char.UnicodeChar = r_level.GetTileAtCoordinates(x,y);
+			}
+			else {
+				m_buffer[y][x].Char.UnicodeChar = ' ';
+			}
+
+			m_buffer[y][x].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
+		}
+	}
+
+	WriteConsoleOutput(m_hOutput, (CHAR_INFO*)m_buffer, m_dwBufferSize,
+		m_dwBufferCoord, &m_rcRegion);
 }
 
 void Game::Draw(const std::string& r_filename)
@@ -42,23 +61,21 @@ void Game::Draw(const std::string& r_filename)
 	std::getline(file, line);
 	ReadInt(line, fileHeight);
 
-	for (int jHeight = 0; jHeight < SCREEN_HEIGHT; jHeight++) {
-		if (jHeight < fileHeight) {
-			std::getline(file, line);
-		}
+	for (int y = 0; y < SCREEN_HEIGHT; y++) {
+		for (int x = 0; x < SCREEN_WIDTH; x++) {
 
-		for (int iWidth = 0; iWidth < SCREEN_WIDTH; iWidth++) {
-
-			if (iWidth <= fileWidth && jHeight < fileHeight) {
-				m_buffer[jHeight][iWidth].Char.UnicodeChar = line[iWidth];
+			if (x < fileWidth && y < fileHeight) {
+				m_buffer[y][x].Char.UnicodeChar = line[x];
 			}
 			else {
-				m_buffer[jHeight][iWidth].Char.UnicodeChar = ' ';
+				m_buffer[y][x].Char.UnicodeChar = ' ';
 			}
 
-			m_buffer[jHeight][iWidth].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
+			m_buffer[y][x].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
 		}
 	}
+
+
 
 	file.close();
 	file.clear();
@@ -121,7 +138,7 @@ void Game::Loop()
 	}
 }
 
-bool Game::ReadInt(std::string const r_line, int& r_out)
+bool Game::ReadInt(const std::string& r_line, int& r_out)
 {
 	std::istringstream sStream(r_line);
 	int tmp;

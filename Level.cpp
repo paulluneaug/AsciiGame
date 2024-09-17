@@ -38,6 +38,12 @@ const std::vector<Entity*>& Level::GetEntities()
 	return m_entities;
 }
 
+const Grid& Level::GetGrid() const
+{
+	return m_grid;
+}
+
+
 void Level::LoadLevelAtPath(const std::string& r_path)
 {
 	std::ifstream levelFile(r_path);
@@ -53,9 +59,6 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 	levelFile >> width;
 	levelFile >> height;
 
-
-	std::cout << "Width = " << width << "\n" << "Height = " << height << std::endl;
-
 	m_grid = Grid(width, height);
 	//m_entities = std::vector<std::unique_ptr<Entity>>(3);
 
@@ -69,7 +72,6 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 		}
 
 		std::getline(levelFile, line);
-		std::cout << "Reading Line " << line << std::endl;
 
 		int iChar = 0;
 		for (char tileChar : line)

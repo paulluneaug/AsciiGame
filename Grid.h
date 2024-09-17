@@ -28,6 +28,6 @@ public:
 	void SetTile(int x, int y, char newChar);
 
 private:
-	unsigned char GetTileFromChar(char c);
+	unsigned char GetTileFromChar(char c) const;
 };
 

@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include <string>
 #include <sstream>
+#include "Grid.h"
 #include <stdio.h>
 
 #define SCREEN_WIDTH 80
