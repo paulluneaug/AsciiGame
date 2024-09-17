@@ -1,10 +1,10 @@
 #include "Entity.h"
 
-bool Entity::Move(int dx, int dy, Level& const level)
+bool Entity::Move(int dx, int dy, const Grid& grid, const std::vector<Entity*>& r_allEntities)
 {
 	if (!m_canMove) return false;
 
-	if (!CanMoveTo(dx,dy,level)) {
+	if (!CanMoveTo(dx,dy,grid, r_allEntities)) {
 		return false;
 	}
 
@@ -32,7 +32,7 @@ int Entity::GetY()
 	return m_y;
 }
 
-bool Entity::CanMoveTo(int dx, int dy, Level& const level)
+bool Entity::CanMoveTo(int dx, int dy, const Grid& level, const std::vector<Entity*>& r_allEntities)
 {
 	return level.IsInBound(m_x + dx, m_y + dy);
 }
