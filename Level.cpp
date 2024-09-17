@@ -3,22 +3,15 @@
 #include "Box.h"
 #include "Target.h"
 
-const unsigned char Level::AIR_TILE = 0;
-const unsigned char Level::WALL_TILE = 1;
-const unsigned char Level::INVALID_TILE = 255;
-
-Level::Level(const std::string& r_path)
+Level::Level() : m_player(0, 0, 'P'), m_grid(0, 0)
 {
-	LoadLevelAtPath(r_path);
 }
 
 Level::~Level()
 {
-	delete m_terrain;
-
-	for (Entity* entity : m_entities) 
+	for (Entity* entity : m_entities)
 	{
-		if (entity != NULL) 
+		if (entity != NULL)
 		{
 			delete entity;
 		}
@@ -27,53 +20,70 @@ Level::~Level()
 
 bool Level::IsInBound(int x, int y) const
 {
-	return 0 <= x && x < m_width
-		&& 0 <= y && y < m_height;
+	return m_grid.IsInBound(x, y);
 }
 
 unsigned char Level::GetTileAtCoordinates(int x, int y) const
 {
-	if (IsInBound(x, y))
-	{
-		//return m_terrain[x + y * m_width];
-	}
-	return INVALID_TILE;
+	return m_grid.GetTileAtCoordinates(x, y);
 }
+
+const Player& Level::GetPlayer()
+{
+	return m_player;
+}
+
+const std::vector<Entity*>& Level::GetEntities()
+{
+	return m_entities;
+}
+
+const Grid& Level::GetGrid() const
+{
+	return m_grid;
+}
+
 
 void Level::LoadLevelAtPath(const std::string& r_path)
 {
 	std::ifstream levelFile(r_path);
 	std::string line;
 
-	levelFile >> m_width;
-	levelFile >> m_height;
+	if (levelFile.fail()) {
+		std::cout << "Can't find level at path = " << r_path << std::endl;
+		return;
+	}
 
-	std::cout << "Width = " << m_width << "\n" << "Height = " << m_height << std::endl;
+	int width, height;
 
-	m_terrain = new unsigned char[m_width * m_height]();
+	levelFile >> width;
+	levelFile >> height;
+
+	m_grid = Grid(width, height);
 	//m_entities = std::vector<std::unique_ptr<Entity>>(3);
 
 	int iLine = 0;
-	while (!levelFile.eof()) 
+	while (!levelFile.eof())
 	{
-		if (iLine >= m_height)
+		if (iLine >= height)
 		{
 			std::cout << "Invalid file datas (" << r_path << ") : The given height is smaller than the actual grid's height" << std::endl;
 			return;
 		}
 
 		std::getline(levelFile, line);
-		std::cout << "Reading Line " << line << std::endl;
 
 		int iChar = 0;
-		for (char tileChar : line) 
+		for (char tileChar : line)
 		{
-			if (iChar >= m_width) 
+			if (iChar >= width)
 			{
 				std::cout << "Invalid file datas (" << r_path << ") : The given width is smaller than the actual grid's width";
 				return;
 			}
-			m_terrain[iChar + iLine * m_width] = GetTileFromChar(tileChar);
+
+			m_grid.SetTile(iChar, iLine, tileChar);
+
 			AddEntityAtIfNeeded(iChar, iLine, tileChar);
 			++iChar;
 		}
@@ -82,31 +92,18 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 
 }
 
-unsigned char Level::GetTileFromChar(char c)
-{
-	switch (c)
-	{
-	case '#':
-		return WALL_TILE;
-	case ' ':
-		return AIR_TILE;
-	default:
-		return AIR_TILE;
-	}
-}
-
 bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar)
 {
-	Entity* newEntity;// = nullptr;
+	Entity* newEntity = nullptr;
 	switch (entityChar)
 	{
 	case 'P':
-		m_player = Player();
+		m_player = Player(x, y, 'P');
 		return true;
 	case 'B':
-		newEntity = new Box();
+		newEntity = new Box(x, y, 'B');
 	case 'T':
-		newEntity = new Target();
+		newEntity = new Target(x, y, 'T');
 	default:
 		return false;
 	}
