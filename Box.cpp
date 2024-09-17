@@ -13,22 +13,33 @@ bool Box::Move(int dx, int dy, Level& const level)
 			_currentTarget->OnExit();
 		}
 
+		std::vector<Entity*>& const entities = level.GetEntities();
+		Target* target;
+		for (Entity* entity : entities) {
+			target = dynamic_cast<Target*>(entity);
+			if (target != nullptr  && entity->GetX() == _x && entity->GetY() == _y) {
+				target->OnEnter();
+				break;
+			}
+		}
 		return true;
-
-		// for sur les entities de level
-		// On cherche une cible sur (x,y)
-		// On l'active (OnEnter)
 	}
 	return false;
 }
 
 bool Box::CanMoveTo(int dx, int dy, Level& const level)
 {
-	bool result = Entity::CanMoveTo(dx, dy, level);
-	if (!result) return result;
+	if (!Entity::CanMoveTo(dx, dy, level)) return false;
 
-	// for sur les entities de level
-	// On cherche une boite qui est sur (x,y) et on renvoie faux si on en trouve
+	int nextX = _x + dx;
+	int nextY = _y + dy;
 
-	return result;
+	std::vector<Entity*>& const entities = level.GetEntities();
+	for (Entity* entity : entities) {
+		if (dynamic_cast<Box*>(entity) != nullptr && entity->GetX() == nextX && entity->GetY() == nextY) {
+			return false;
+		}
+	}
+
+	return true;
 }

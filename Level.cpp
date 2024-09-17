@@ -40,6 +40,16 @@ unsigned char Level::GetTileAtCoordinates(int x, int y) const
 	return INVALID_TILE;
 }
 
+Player& const Level::GetPlayer()
+{
+	return m_player;
+}
+
+std::vector<Entity*>& const Level::GetEntities()
+{
+	return m_entities;
+}
+
 void Level::LoadLevelAtPath(const std::string& r_path)
 {
 	std::ifstream levelFile(r_path);
