@@ -24,7 +24,7 @@ Game::Game()
 	m_level.LoadLevelAtPath("Level0.txt");
 }
 
-void Game::Draw(const Level& r_level)
+void Game::Draw(Level& r_level)
 {
 	int levelWidth = r_level.GetGrid().GetWidth();
 	int levelHeight = r_level.GetGrid().GetHeight();
@@ -167,7 +167,7 @@ VOID Game::KeyEventProc(KEY_EVENT_RECORD ker)
 	int moveX = ker.wVirtualKeyCode == 37 ? -1 : (ker.wVirtualKeyCode == 39 ? 1 : 0);
 	int moveY = ker.wVirtualKeyCode == 38 ? -1 : (ker.wVirtualKeyCode == 40 ? 1 : 0);
 
-	std::cout << moveX << " " << moveY << std::endl;
+	m_level.GetPlayer().Move(moveX, moveY, m_level.GetGrid(), m_level.GetEntities());
 
 	Draw(m_level);
 }
