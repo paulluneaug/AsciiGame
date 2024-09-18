@@ -7,23 +7,34 @@
 #include "Target.h"
 
 Level::Level() :
-	m_player(0, 0, 'P'),
+	m_player(nullptr),
 	m_grid(nullptr),
 	m_loaded(false)
 {
 }
 
+Level::Level(const std::string& r_path) : Level::Level()
+{
+	LoadLevelAtPath(r_path);
+}
+
 Level::~Level()
 {
-	delete m_grid;
+	if (m_grid != nullptr)
+	{
+		delete m_grid;
+	}
 
 	for (Entity* entity : m_entities)
 	{
-		if (entity != NULL)
+		if (entity != nullptr)
 		{
 			delete entity;
 		}
 	}
+	m_loaded = false;
+
+	delete m_player;
 }
 
 bool Level::IsInBound(int x, int y) const
@@ -39,7 +50,7 @@ unsigned char Level::GetTileAtCoordinates(int x, int y) const
 Player& Level::GetPlayer()
 {
 	assert(m_loaded);
-	return m_player;
+	return *m_player;
 }
 
 const std::vector<Entity*>& Level::GetEntities() const
@@ -120,7 +131,7 @@ bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar)
 	switch (entityChar)
 	{
 	case 'P':
-		m_player = Player(x, y, 'P');
+		m_player = new Player(x, y, 'P');
 		return true;
 	case 'B':
 		newEntity = new Box(x, y, 'B');

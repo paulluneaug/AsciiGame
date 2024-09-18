@@ -16,12 +16,13 @@ private:
 	Grid* m_grid;
 
 	std::vector<Entity*> m_entities;
-	Player m_player;
+	Player* m_player;
 
 	bool m_loaded;
 
 public:
 	Level();
+	Level(const std::string& r_path);
 	~Level();
 
 	void LoadLevelAtPath(const std::string& r_path);
@@ -36,4 +37,5 @@ public:
 
 private:
 	bool AddEntityAtIfNeeded(int x, int y, char entityChar);
+
 };
