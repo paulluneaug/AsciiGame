@@ -141,8 +141,6 @@ void Game::Loop()
 		Draw(*m_level);
 
 		if (m_level->HasFinishedLevel()) {
-			// Done
-			std::cout << "Level Ended !" << std::endl;
 			LoadNextLevel();
 		}
 	}
