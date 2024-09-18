@@ -158,9 +158,9 @@ bool Game::ReadInt(const std::string& r_line, int& r_out)
 	return true;
 }
 
-VOID Game::ErrorExit(LPCSTR lpszMessage)
+VOID Game::ErrorExit(LPCSTR error)
 {
-	std::cout << lpszMessage << std::endl;
+	std::cout << error << std::endl;
 
 	// Restore input mode on exit.
 
@@ -168,16 +168,16 @@ VOID Game::ErrorExit(LPCSTR lpszMessage)
 	ExitProcess(0);
 }
 
-VOID Game::KeyEventProc(KEY_EVENT_RECORD ker)
+VOID Game::KeyEventProc(KEY_EVENT_RECORD key)
 {
-	if (!ker.bKeyDown) return;
+	if (!key.bKeyDown) return;
 
 	if (m_titleScreen) {
 		m_titleScreen = false;
 	}
 	else {
-		int moveX = ker.wVirtualKeyCode == 37 ? -1 : (ker.wVirtualKeyCode == 39 ? 1 : 0);
-		int moveY = ker.wVirtualKeyCode == 38 ? -1 : (ker.wVirtualKeyCode == 40 ? 1 : 0);
+		int moveX = key.wVirtualKeyCode == 37 ? -1 : (key.wVirtualKeyCode == 39 ? 1 : 0);
+		int moveY = key.wVirtualKeyCode == 38 ? -1 : (key.wVirtualKeyCode == 40 ? 1 : 0);
 
 		m_level.GetPlayer().Move(moveX, moveY, m_level.GetGrid(), m_level.GetEntities());
 	}
