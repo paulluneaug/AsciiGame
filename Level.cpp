@@ -1,11 +1,15 @@
 #include "Level.h"
 
 #include <sstream>
+#include <cassert>
 
 #include "Box.h"
 #include "Target.h"
 
-Level::Level() : m_player(0, 0, 'P'), m_grid(0, 0)
+Level::Level() : 
+	m_player(0, 0, 'P'),
+	m_grid(0, 0),
+	m_loaded(false)
 {
 }
 
@@ -32,16 +36,19 @@ unsigned char Level::GetTileAtCoordinates(int x, int y) const
 
 Player& Level::GetPlayer()
 {
+	assert(m_loaded);
 	return m_player;
 }
 
 const std::vector<Entity*>& Level::GetEntities() const
 {
+	assert(m_loaded);
 	return m_entities;
 }
 
 const Grid& Level::GetGrid() const
 {
+	assert(m_loaded);
 	return m_grid;
 }
 
@@ -99,6 +106,9 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 		++iLine;
 	}
 
+	levelFile.close();
+
+	m_loaded = true;
 }
 
 bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar)

@@ -18,6 +18,8 @@ private:
 	std::vector<Entity*> m_entities;
 	Player m_player;
 
+	bool m_loaded;
+
 public:
 	Level();
 	~Level();
@@ -34,7 +36,4 @@ public:
 
 private:
 	bool AddEntityAtIfNeeded(int x, int y, char entityChar);
-
-
-
 };
