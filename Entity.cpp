@@ -43,7 +43,7 @@ bool Entity::CanDraw() const
 	return m_canDraw;
 }
 
-bool Entity::CanMoveTo(int dx, int dy, const Grid& level, const std::vector<Entity*>& r_allEntities)
+bool Entity::CanMoveTo(int dx, int dy, const Grid& level, const std::vector<Entity*>& r_allEntities) const
 {
 	return level.IsInBound(m_x + dx, m_y + dy);
 }

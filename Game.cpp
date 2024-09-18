@@ -129,6 +129,11 @@ void Game::Loop()
 
 		for (i = 0; i < cNumRead; i++)
 		{
+			if (irInBuf[i].EventType == KEY_EVENT) {
+				KeyEventProc(irInBuf[i].Event.KeyEvent);
+				break;
+			}
+			/*
 			switch (irInBuf[i].EventType)
 			{
 			case KEY_EVENT: // keyboard input
@@ -147,7 +152,7 @@ void Game::Loop()
 			default:
 				ErrorExit("Unknown event type");
 				break;
-			}
+			}*/
 		}
 	}
 }

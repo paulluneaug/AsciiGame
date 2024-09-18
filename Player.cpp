@@ -21,7 +21,7 @@ bool Player::Move(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>
 	return false;
 }
 
-bool Player::CanMoveTo(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r_allEntities)
+bool Player::CanMoveTo(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r_allEntities) const
 {
 	if (!Entity::CanMoveTo(dx, dy, r_grid, r_allEntities)) return false;
 

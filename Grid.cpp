@@ -1,5 +1,6 @@
 #include "Grid.h"
 #include "Box.h"
+#include <iostream>
 
 const unsigned char Grid::AIR_TILE = ' ';
 const unsigned char Grid::WALL_TILE = '#';
@@ -35,7 +36,9 @@ unsigned char Grid::GetTileAtCoordinates(int x, int y) const
 {
 	if (IsInBound(x, y))
 	{
-		return GetTileFromChar(m_terrain[x + y * m_width]);
+		std::cout << x << " " << y << " " << m_width << " " << m_height 
+			<< " " << (x + y * m_width) << " " << m_terrain[x + y * m_width] << std::endl;
+		return m_terrain[x + y * m_width];
 	}
 	return INVALID_TILE;
 }
@@ -45,7 +48,7 @@ void Grid::SetTile(int x, int y, char newChar)
 	m_terrain[x + y * m_width] = GetTileFromChar(newChar);
 }
 
-unsigned char Grid::GetTileFromChar(char c) const
+unsigned char Grid::GetTileFromChar(const char c) const
 {
 	switch (c)
 	{

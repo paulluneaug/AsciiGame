@@ -69,34 +69,17 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 	m_grid = Grid(width, height);
 
 	// Goes through the rest of the file
-	int iLine = 0;
-	while (!levelFile.eof())
+	for(int iLine = 0; iLine < height;iLine++)
 	{
-		if (iLine >= height)
-		{
-			std::cout << "Invalid file datas (" << r_path << ") : The given height is smaller than the actual grid's height" << std::endl;
-			return;
+		if (iLine < height) {
+			std::getline(levelFile, line);
 		}
 
-		std::getline(levelFile, line);
-
-		int iChar = 0;
-		for (char tileChar : line)
-		{
-			if (iChar >= width)
-			{
-				std::cout << "Invalid file datas (" << r_path << ") : The given width is smaller than the actual grid's width";
-				return;
-			}
-
-			m_grid.SetTile(iChar, iLine, tileChar);
-
-			AddEntityAtIfNeeded(iChar, iLine, tileChar);
-			++iChar;
+		for(int iChar = 0; iChar < width; iChar++){
+			m_grid.SetTile(iChar, iLine, line[iChar]);
+			AddEntityAtIfNeeded(iChar, iLine, line[iChar]);
 		}
-		++iLine;
 	}
-
 }
 
 bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar)
