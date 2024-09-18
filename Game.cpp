@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Grid.h";
 
 Game::Game()
 {
@@ -8,7 +9,7 @@ Game::Game()
 	m_hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
 	m_hInput = (HANDLE)GetStdHandle(STD_INPUT_HANDLE);
 
-	m_buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
+	m_buffer = new CHAR_INFO[SCREEN_HEIGHT * SCREEN_WIDTH];
 
 	m_dwBufferSize = { SCREEN_WIDTH,SCREEN_HEIGHT };
 	m_dwBufferCoord = { 0, 0 };
@@ -25,6 +26,11 @@ Game::Game()
 	m_level.LoadLevelAtPath("Level0.txt");
 }
 
+Game::~Game()
+{
+	delete m_buffer;
+}
+
 void Game::Draw(Level& r_level)
 {
 	int levelWidth = r_level.GetGrid().GetWidth();
@@ -34,24 +40,24 @@ void Game::Draw(Level& r_level)
 		for (int x = 0; x < SCREEN_WIDTH; x++) {
 
 			if (r_level.IsInBound(x,y)) {
-				m_buffer[y][x].Char.UnicodeChar = r_level.GetTileAtCoordinates(x,y);
+				m_buffer[y * SCREEN_WIDTH + x].Char.UnicodeChar = GetCharForTile(r_level.GetTileAtCoordinates(x,y));
 			}
 			else {
-				m_buffer[y][x].Char.UnicodeChar = ' ';
+				m_buffer[y * SCREEN_WIDTH + x].Char.UnicodeChar = ' ';
 			}
 
-			m_buffer[y][x].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
+			m_buffer[y * SCREEN_WIDTH + x].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
 		}
 	}
 
 	for (Entity* entity : r_level.GetEntities()) {
 		if (entity->CanDraw()) {
-			m_buffer[entity->GetY()][entity->GetX()].Char.UnicodeChar = entity->GetChar();
+			m_buffer[entity->GetY() * SCREEN_WIDTH + entity->GetX()].Char.UnicodeChar = entity->GetChar();
 		}
 		
 	}
 
-	m_buffer[r_level.GetPlayer().GetY()][r_level.GetPlayer().GetX()].Char.UnicodeChar = r_level.GetPlayer().GetChar();
+	m_buffer[r_level.GetPlayer().GetY() * SCREEN_WIDTH + r_level.GetPlayer().GetX()].Char.UnicodeChar = r_level.GetPlayer().GetChar();
 
 	WriteConsoleOutput(m_hOutput, (CHAR_INFO*)m_buffer, m_dwBufferSize,
 		m_dwBufferCoord, &m_rcRegion);
@@ -77,22 +83,20 @@ void Game::Draw(const std::string& r_filename)
 		}
 		for (int x = 0; x < SCREEN_WIDTH; x++) {
 			if (x < fileWidth && y < fileHeight) {
-				m_buffer[y][x].Char.UnicodeChar = line[x];
+				m_buffer[y * SCREEN_WIDTH + x].Char.UnicodeChar = line[x];
 			}
 			else {
-				m_buffer[y][x].Char.UnicodeChar = ' ';
+				m_buffer[y * SCREEN_WIDTH + x].Char.UnicodeChar = ' ';
 			}
 
-			m_buffer[y][x].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
+			m_buffer[y * SCREEN_WIDTH + x].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
 		}
 	}
-
-
 
 	file.close();
 	file.clear();
 
-	WriteConsoleOutput(m_hOutput, (CHAR_INFO*)m_buffer, m_dwBufferSize,
+	WriteConsoleOutput(m_hOutput, m_buffer, m_dwBufferSize,
 		m_dwBufferCoord, &m_rcRegion);
 }
 
@@ -100,8 +104,8 @@ void Game::ClearScreen()
 {
 	for (int iWidth = 0; iWidth < SCREEN_WIDTH; iWidth++) {
 		for (int jHeight = 0; jHeight < SCREEN_HEIGHT; jHeight++) {
-			m_buffer[jHeight][iWidth].Char.UnicodeChar = ' ';
-			m_buffer[jHeight][iWidth].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
+			m_buffer[jHeight * SCREEN_WIDTH + iWidth].Char.UnicodeChar = ' ';
+			m_buffer[jHeight * SCREEN_WIDTH + iWidth].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
 		}
 	}
 
@@ -191,6 +195,18 @@ VOID Game::KeyEventProc(KEY_EVENT_RECORD ker)
 		m_level.GetPlayer().Move(moveX, moveY, m_level.GetGrid(), m_level.GetEntities());
 	}
 	Draw(m_level);
+}
+
+char Game::GetCharForTile(unsigned char tile)
+{
+	switch (tile) {
+	case Grid::EMPTY_TILE:
+		return ' ';
+	case Grid::WALL_TILE:
+		return '#';
+	}
+
+	return '?';
 }
 
 

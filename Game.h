@@ -17,6 +17,7 @@ class Game
 public:
 
 	Game();
+	~Game();
 
 	void Draw(Level& r_level);
 	void Draw(const std::string& r_filename);
@@ -25,10 +26,10 @@ public:
 
 private:
 
+	CHAR_INFO* m_buffer;
 	Level m_level;
 
 
-	CHAR_INFO m_buffer[SCREEN_HEIGHT][SCREEN_WIDTH];
 
 	HANDLE m_hOutput;
 	HANDLE m_hInput;
@@ -46,5 +47,7 @@ private:
 
 	void ErrorExit(LPCSTR);
 	void KeyEventProc(KEY_EVENT_RECORD);
+
+	char GetCharForTile(unsigned char tile);
 };
 

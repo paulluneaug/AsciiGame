@@ -13,7 +13,7 @@
 class Level
 {
 private:
-	Grid m_grid;
+	Grid* m_grid;
 
 	std::vector<Entity*> m_entities;
 	Player m_player;

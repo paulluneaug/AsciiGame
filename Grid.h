@@ -4,9 +4,9 @@
 class Grid
 {
 public:
-	static const unsigned char EMPTY_TILE;
-	static const unsigned char WALL_TILE;
-	static const unsigned char INVALID_TILE;
+	static const unsigned char EMPTY_TILE = 0;
+	static const unsigned char WALL_TILE = 1;
+	static const unsigned char INVALID_TILE = 255;
 
 private:
 	int m_width;
@@ -26,6 +26,8 @@ public:
 	unsigned char GetTileAtCoordinates(int x, int y) const;
 
 	void SetTile(int x, int y, char newChar);
+
+	void PrintGrid() const;
 
 private:
 	unsigned char GetTileFromChar(char c) const;

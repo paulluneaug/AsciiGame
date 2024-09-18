@@ -2,13 +2,13 @@
 #include "Box.h"
 #include <iostream>
 
-const unsigned char Grid::EMPTY_TILE = ' ';
-const unsigned char Grid::WALL_TILE = '#';
-const unsigned char Grid::INVALID_TILE = '?';
+//const unsigned char Grid::EMPTY_TILE = 0;
+//const unsigned char Grid::WALL_TILE = 1;
+//const unsigned char Grid::INVALID_TILE = 255;
 
 Grid::Grid(int width, int height) : m_width(width), m_height(height)
 {
-	m_terrain = new unsigned char[width * height];
+	m_terrain = new unsigned char[width * height]();
 }
 
 Grid::~Grid()
@@ -36,8 +36,6 @@ unsigned char Grid::GetTileAtCoordinates(int x, int y) const
 {
 	if (IsInBound(x, y))
 	{
-		std::cout << x << " " << y << " " << m_width << " " << m_height 
-			<< " " << (x + y * m_width) << " " << m_terrain[x + y * m_width] << std::endl;
 		return m_terrain[x + y * m_width];
 	}
 	return INVALID_TILE;
@@ -46,6 +44,20 @@ unsigned char Grid::GetTileAtCoordinates(int x, int y) const
 void Grid::SetTile(int x, int y, char newChar)
 {
 	m_terrain[x + y * m_width] = GetTileFromChar(newChar);
+}
+
+void Grid::PrintGrid() const
+{
+	std::cout << "Terrain Ptr : " << &m_terrain << std::endl;
+	for (int y = 0; y < m_height; ++y) 
+	{
+
+		for (int x = 0; x < m_width; ++x) 
+		{
+			std::cout << m_terrain[x + y * m_width];
+		}
+		std::cout << std::endl;
+	}
 }
 
 unsigned char Grid::GetTileFromChar(const char c) const
