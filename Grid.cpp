@@ -37,7 +37,7 @@ unsigned char Grid::GetTileAtCoordinates(int x, int y) const
 	if (IsInBound(x, y))
 	{
 		std::cout << x << " " << y << " " << m_width << " " << m_height 
-			<< " " << (x + y * m_width) << " " << m_terrain[x + y * m_width] << std::endl;
+			<< " " << (x + y * m_width) << " " << GetTileFromChar(m_terrain[x + y * m_width]) << std::endl;
 		return m_terrain[x + y * m_width];
 	}
 	return INVALID_TILE;
