@@ -24,10 +24,12 @@ public:
 	void ClearScreen();
 	void Loop();
 
+	void ProcessInputs(INPUT_RECORD  irInBuf[128], DWORD& cNumRead, DWORD& i);
+
 private:
 
 	CHAR_INFO* m_buffer;
-	Level m_level;
+	Level* m_level;
 
 
 
@@ -42,12 +44,19 @@ private:
 	bool m_stoppedGame;
 	bool m_titleScreen;
 
+	int m_levelIndex;
+
+private:
 
 	bool ReadInt(const std::string& r_line, int& r_out);
 
 	void ErrorExit(LPCSTR);
 	void KeyEventProc(KEY_EVENT_RECORD);
 
-	char GetCharForTile(unsigned char tile);
+	WCHAR GetCharForTile(unsigned char tile);
+
+	void NextLevel();
+	void ReloadLevel();
+	void LoadLevel(int levelIndex);
 };
 

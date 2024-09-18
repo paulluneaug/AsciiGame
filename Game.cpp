@@ -1,10 +1,13 @@
 #include "Game.h"
 #include "Grid.h";
+#include "KeyCode.h"
 
 Game::Game()
 {
 	m_titleScreen = true;
 	m_stoppedGame = false;
+
+	m_levelIndex = 0;
 
 	m_hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
 	m_hInput = (HANDLE)GetStdHandle(STD_INPUT_HANDLE);
@@ -23,12 +26,13 @@ Game::Game()
 	if (!SetConsoleMode(m_hInput, fdwMode))
 		ErrorExit("SetConsoleMode");
 
-	m_level.LoadLevelAtPath("Level0.txt");
+
+	LoadLevel(m_levelIndex);
 }
 
 Game::~Game()
 {
-	delete m_buffer;
+	delete[] m_buffer;
 }
 
 void Game::Draw(Level& r_level)
@@ -121,43 +125,53 @@ void Game::Loop()
 
 	Draw("title.txt");
 
-	while (!m_stoppedGame) {
-		if (!ReadConsoleInput(
-			m_hInput,      // input buffer handle
-			irInBuf,     // buffer to read into
-			128,         // size of read buffer
-			&cNumRead)) // number of records read
-			ErrorExit("ReadConsoleInput");
+	while (!m_stoppedGame) 
+	{
+		ProcessInputs(irInBuf, cNumRead, i);
 
-		// Dispatch the events to the appropriate handler.
+		Draw(*m_level);
+	}
+}
 
-		for (i = 0; i < cNumRead; i++)
-		{
-			if (irInBuf[i].EventType == KEY_EVENT) {
-				KeyEventProc(irInBuf[i].Event.KeyEvent);
-				break;
-			}
-			/*
-			switch (irInBuf[i].EventType)
-			{
-			case KEY_EVENT: // keyboard input
-				KeyEventProc(irInBuf[i].Event.KeyEvent);
-				break;
+void Game::ProcessInputs(INPUT_RECORD  irInBuf[128], DWORD& cNumRead, DWORD& i)
+{
+	if (!ReadConsoleInput(
+		m_hInput,      // input buffer handle
+		irInBuf,     // buffer to read into
+		128,         // size of read buffer
+		&cNumRead)) // number of records read
+	{
+		ErrorExit("ReadConsoleInput");
+	}
 
-			case MOUSE_EVENT: // mouse input
+	// Dispatch the events to the appropriate handler.
 
-			case WINDOW_BUFFER_SIZE_EVENT: // scrn buf. resizing
-
-			case FOCUS_EVENT:  // disregard focus events
-
-			case MENU_EVENT:   // disregard menu events
-				break;
-
-			default:
-				ErrorExit("Unknown event type");
-				break;
-			}*/
+	for (i = 0; i < cNumRead; i++)
+	{
+		if (irInBuf[i].EventType == KEY_EVENT) {
+			KeyEventProc(irInBuf[i].Event.KeyEvent);
+			break;
 		}
+		/*
+		switch (irInBuf[i].EventType)
+		{
+		case KEY_EVENT: // keyboard input
+		KeyEventProc(irInBuf[i].Event.KeyEvent);
+		break;
+
+		case MOUSE_EVENT: // mouse input
+
+		case WINDOW_BUFFER_SIZE_EVENT: // scrn buf. resizing
+
+		case FOCUS_EVENT:  // disregard focus events
+
+		case MENU_EVENT:   // disregard menu events
+		break;
+
+		default:
+		ErrorExit("Unknown event type");
+		break;
+		}*/
 	}
 }
 
@@ -185,28 +199,67 @@ VOID Game::KeyEventProc(KEY_EVENT_RECORD ker)
 {
 	if (!ker.bKeyDown) return;
 
-	if (m_titleScreen) {
+	if (m_titleScreen) 
+	{
 		m_titleScreen = false;
+		return;
 	}
-	else {
-		int moveX = ker.wVirtualKeyCode == 37 ? -1 : (ker.wVirtualKeyCode == 39 ? 1 : 0);
-		int moveY = ker.wVirtualKeyCode == 38 ? -1 : (ker.wVirtualKeyCode == 40 ? 1 : 0);
 
-		m_level.GetPlayer().Move(moveX, moveY, m_level.GetGrid(), m_level.GetEntities());
+	int moveX = 
+		ker.wVirtualKeyCode == KeyCode::ARROW_LEFT ? -1 : 0 +
+		ker.wVirtualKeyCode == KeyCode::ARROW_RIGHT ? 1 : 0;
+
+	int moveY =
+		ker.wVirtualKeyCode == KeyCode::ARROW_UP ? -1 : 0 +
+		ker.wVirtualKeyCode == KeyCode::ARROW_DOWN ? 1 : 0;
+
+	if (moveX != 0 || moveY != 0) 
+	{
+		m_level->GetPlayer().Move(moveX, moveY, m_level->GetGrid(), m_level->GetEntities());
+		return;
 	}
-	Draw(m_level);
+
+	bool reloadLevel = ker.wVirtualKeyCode == KeyCode::KEY_R;
+	if (reloadLevel) 
+	{
+		ReloadLevel();
+		return;
+	}
 }
 
-char Game::GetCharForTile(unsigned char tile)
+WCHAR Game::GetCharForTile(unsigned char tile)
 {
 	switch (tile) {
 	case Grid::EMPTY_TILE:
 		return ' ';
 	case Grid::WALL_TILE:
-		return '#';
+		return L'\u03a9';
 	}
 
 	return '?';
+}
+
+void Game::NextLevel()
+{
+	LoadLevel(++m_levelIndex);
+}
+
+void Game::ReloadLevel()
+{
+	LoadLevel(m_levelIndex);
+}
+
+void Game::LoadLevel(int levelIndex)
+{
+	std::ostringstream ss;
+	ss << "Level" << m_levelIndex << ".txt";
+	std::string newLevelName = ss.str();
+
+	if (m_level != nullptr)
+	{
+		delete m_level;
+	}
+	m_level = new Level(newLevelName);
 }
 
 
