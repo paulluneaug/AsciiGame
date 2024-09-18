@@ -1,4 +1,4 @@
-#include "Level.h"
+﻿#include "Level.h"
 
 #include <cassert>
 #include <sstream>
@@ -9,7 +9,9 @@
 Level::Level() :
 	m_player(0, 0, 'P', BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_INTENSITY),
 	m_grid(nullptr),
-	m_loaded(false)
+	m_loaded(false),
+	m_currentActivatedTargets(0),
+	m_maxTargets(0)
 {
 }
 
@@ -59,6 +61,21 @@ WORD Level::GetTileColor(int x, int y) const
 	return m_grid->GetTileColorAtCoordinates(x,y);
 }
 
+void Level::RegisterActivatedTarget()
+{
+	m_currentActivatedTargets = min(m_maxTargets, m_currentActivatedTargets + 1);
+}
+
+void Level::UnregisterActivatedTarget()
+{
+	m_currentActivatedTargets = max(0, m_currentActivatedTargets - 1);
+}
+
+bool Level::HasFinishedLevel()
+{
+	return m_currentActivatedTargets == m_maxTargets;
+}
+
 
 void Level::LoadLevelAtPath(const std::string& r_path)
 {
@@ -83,7 +100,10 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 	if (m_grid != nullptr) {
 		delete m_grid;
 	}
+
 	m_grid = new Grid(width, height);
+	m_maxTargets = 0;
+	m_currentActivatedTargets = 0;
 
 	// Goes through the rest of the file
 	int iLine = 0;
@@ -126,13 +146,14 @@ bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar)
 	switch (entityChar)
 	{
 	case 'P':
-		m_player = Player(x, y, 'P', BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_INTENSITY);
+		m_player = Player(x, y, L'☺', BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_INTENSITY);
 		return true;
 	case 'B':
-		newEntity = new Box(x, y, 'B', BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
+		newEntity = new Box(x, y, L'█', BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
 		break;
 	case 'T':
-		newEntity = new Target(x, y, 'T', BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_INTENSITY);
+		newEntity = new Target(x, y, L'○', BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_INTENSITY,*this);
+		m_maxTargets++;
 		break;
 	default:
 		return false;

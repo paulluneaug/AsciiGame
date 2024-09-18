@@ -1,8 +1,9 @@
-#include "Game.h"
+﻿#include "Game.h"
 #include "Grid.h";
 
 Game::Game()
 {
+
 	m_titleScreen = true;
 	m_stoppedGame = false;
 
@@ -175,6 +176,11 @@ VOID Game::KeyEventProc(KEY_EVENT_RECORD ker)
 		m_level.GetPlayer().Move(moveX, moveY, m_level.GetGrid(), m_level.GetEntities());
 	}
 	Draw(m_level);
+
+	if (m_level.HasFinishedLevel()) {
+		// Done
+		std::cout << "Level Ended !" << std::endl;
+	}
 }
 
 char Game::GetCharForTile(unsigned char tile)

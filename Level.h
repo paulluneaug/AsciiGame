@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <set>
 
 #include "Entity.h"
 #include "Player.h"
@@ -36,6 +37,14 @@ public:
 
 	WORD GetTileColor(int x, int y) const;
 
+	void RegisterActivatedTarget();
+	void UnregisterActivatedTarget();
+
+	bool HasFinishedLevel();
+
 private:
 	bool AddEntityAtIfNeeded(int x, int y, char entityChar);
+
+	int m_currentActivatedTargets;
+	int m_maxTargets;
 };
