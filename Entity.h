@@ -9,12 +9,13 @@ public:
 	virtual bool Move(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r_allEntities);
 	virtual bool CanMoveTo(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r_allEntities) const;
 
-	Entity(int x, int y, WCHAR character);
+	Entity(int x, int y, WCHAR character, WORD color);
 
 	int GetX() const;
 	int GetY() const;
 	WCHAR GetChar() const;
 	bool CanDraw() const;
+	WORD GetColor() const;
 
 protected:
 
@@ -23,5 +24,6 @@ protected:
 	int m_y;
 	WCHAR m_character;
 	bool m_canMove;
+	WORD m_color;
 };
 

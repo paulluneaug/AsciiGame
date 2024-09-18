@@ -7,7 +7,7 @@
 #include "Target.h"
 
 Level::Level() :
-	m_player(0, 0, 'P'),
+	m_player(0, 0, 'P', BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_INTENSITY),
 	m_grid(nullptr),
 	m_loaded(false)
 {
@@ -52,6 +52,11 @@ const Grid& Level::GetGrid() const
 {
 	assert(m_loaded);
 	return *m_grid;
+}
+
+WORD Level::GetTileColor(int x, int y) const
+{
+	return m_grid->GetTileColorAtCoordinates(x,y);
 }
 
 
@@ -110,6 +115,7 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 	}
 
 	levelFile.close();
+	levelFile.clear();
 
 	m_loaded = true;
 }
@@ -120,13 +126,13 @@ bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar)
 	switch (entityChar)
 	{
 	case 'P':
-		m_player = Player(x, y, 'P');
+		m_player = Player(x, y, 'P', BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_INTENSITY);
 		return true;
 	case 'B':
-		newEntity = new Box(x, y, 'B');
+		newEntity = new Box(x, y, 'B', BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
 		break;
 	case 'T':
-		newEntity = new Target(x, y, 'T');
+		newEntity = new Target(x, y, 'T', BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_INTENSITY);
 		break;
 	default:
 		return false;

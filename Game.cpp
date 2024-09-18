@@ -41,23 +41,23 @@ void Game::Draw(Level& r_level)
 
 			if (r_level.IsInBound(x,y)) {
 				m_buffer[y * SCREEN_WIDTH + x].Char.UnicodeChar = GetCharForTile(r_level.GetTileAtCoordinates(x,y));
+				m_buffer[y * SCREEN_WIDTH + x].Attributes = r_level.GetTileColor(x, y); 
 			}
 			else {
 				m_buffer[y * SCREEN_WIDTH + x].Char.UnicodeChar = ' ';
+				m_buffer[y * SCREEN_WIDTH + x].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
 			}
-
-			m_buffer[y * SCREEN_WIDTH + x].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
 		}
 	}
 
 	for (Entity* entity : r_level.GetEntities()) {
 		if (entity->CanDraw()) {
-			m_buffer[entity->GetY() * SCREEN_WIDTH + entity->GetX()].Char.UnicodeChar = entity->GetChar();
+			WriteEntityToBuffer(*entity);
 		}
 		
 	}
 
-	m_buffer[r_level.GetPlayer().GetY() * SCREEN_WIDTH + r_level.GetPlayer().GetX()].Char.UnicodeChar = r_level.GetPlayer().GetChar();
+	WriteEntityToBuffer(r_level.GetPlayer());
 
 	WriteConsoleOutput(m_hOutput, (CHAR_INFO*)m_buffer, m_dwBufferSize,
 		m_dwBufferCoord, &m_rcRegion);
@@ -137,26 +137,6 @@ void Game::Loop()
 				KeyEventProc(irInBuf[i].Event.KeyEvent);
 				break;
 			}
-			/*
-			switch (irInBuf[i].EventType)
-			{
-			case KEY_EVENT: // keyboard input
-				KeyEventProc(irInBuf[i].Event.KeyEvent);
-				break;
-
-			case MOUSE_EVENT: // mouse input
-
-			case WINDOW_BUFFER_SIZE_EVENT: // scrn buf. resizing
-
-			case FOCUS_EVENT:  // disregard focus events
-
-			case MENU_EVENT:   // disregard menu events
-				break;
-
-			default:
-				ErrorExit("Unknown event type");
-				break;
-			}*/
 		}
 	}
 }
@@ -203,10 +183,16 @@ char Game::GetCharForTile(unsigned char tile)
 	case Grid::EMPTY_TILE:
 		return ' ';
 	case Grid::WALL_TILE:
-		return '#';
+		return ' ';
 	}
 
 	return '?';
+}
+
+void Game::WriteEntityToBuffer(const Entity& entity)
+{
+	m_buffer[entity.GetY() * SCREEN_WIDTH + entity.GetX()].Char.UnicodeChar = entity.GetChar();
+	//m_buffer[entity.GetY() * SCREEN_WIDTH + entity.GetX()].Attributes = entity.GetColor();
 }
 
 

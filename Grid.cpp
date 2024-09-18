@@ -46,6 +46,23 @@ void Grid::SetTile(int x, int y, char newChar)
 	m_terrain[x + y * m_width] = GetTileFromChar(newChar);
 }
 
+WORD Grid::GetTileColorAtCoordinates(int x, int y) const
+{
+	if (IsInBound(x, y))
+	{
+		unsigned char tile = m_terrain[x + y * m_width];
+		switch (tile) {
+			case Grid::WALL_TILE:
+				return Grid::WALL_COLOR;
+			case Grid::EMPTY_TILE:
+				return Grid::EMPTY_COLOR;
+			default:
+				return Grid::DEFAULT_COLOR;
+		}
+	}
+	return DEFAULT_COLOR;
+}
+
 void Grid::PrintGrid() const
 {
 	std::cout << "Terrain Ptr : " << &m_terrain << std::endl;

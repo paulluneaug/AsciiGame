@@ -34,6 +34,8 @@ public:
 
 	const Grid& GetGrid() const;
 
+	WORD GetTileColor(int x, int y) const;
+
 private:
 	bool AddEntityAtIfNeeded(int x, int y, char entityChar);
 };

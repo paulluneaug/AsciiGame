@@ -49,5 +49,7 @@ private:
 	void KeyEventProc(KEY_EVENT_RECORD);
 
 	char GetCharForTile(unsigned char tile);
+
+	void WriteEntityToBuffer(const Entity& entity);
 };
 
