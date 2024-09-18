@@ -22,6 +22,7 @@ private:
 	Player* m_player;
 
 	bool m_loaded;
+	bool m_foundLevelFile;
 
 	int m_currentActivatedTargets;
 	int m_maxTargets;
@@ -101,7 +102,13 @@ public:
 	/// Checks if the level is finished
 	/// </summary>
 	/// <returns>True if the level is finished</returns>
-	bool HasFinishedLevel();
+	bool HasFinishedLevel() const;
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns>True if the level file was found</returns>
+	bool HasFoundLevelFile() const;
 
 private:
 

@@ -11,7 +11,8 @@ Level::Level() :
 	m_grid(nullptr),
 	m_loaded(false),
 	m_currentActivatedTargets(0),
-	m_maxTargets(0)
+	m_maxTargets(0),
+	m_foundLevelFile(false)
 {
 }
 
@@ -82,9 +83,14 @@ void Level::UnregisterActivatedTarget()
 	m_currentActivatedTargets = max(0, m_currentActivatedTargets - 1);
 }
 
-bool Level::HasFinishedLevel()
+bool Level::HasFinishedLevel() const
 {
 	return m_currentActivatedTargets == m_maxTargets;
+}
+
+bool Level::HasFoundLevelFile() const
+{
+	return m_foundLevelFile;
 }
 
 
@@ -93,7 +99,8 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 	std::ifstream levelFile(r_path);
 	std::string line;
 
-	if (levelFile.fail()) {
+	m_foundLevelFile = levelFile.good();
+	if (!m_foundLevelFile) {
 		std::cout << "Can't find level at path = " << r_path << std::endl;
 		return;
 	}
@@ -157,7 +164,7 @@ bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar)
 	switch (entityChar)
 	{
 	case 'P':
-		m_player = Player(x, y, L'☺', BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_INTENSITY);
+		m_player = new Player(x, y, L'☺', BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_INTENSITY);
 		return true;
 	case 'B':
 		newEntity = new Box(x, y, L'█', BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY);

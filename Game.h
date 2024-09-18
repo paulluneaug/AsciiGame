@@ -102,9 +102,11 @@ private:
 	/// <returns>The tile's character</returns>
 	WCHAR GetCharForTile(unsigned char tile);
 
-	void NextLevel();
+	void LoadNextLevel();
 	void ReloadLevel();
 	void LoadLevel(int levelIndex);
+
+	void FinishGame();
 
 	/// <summary>
 	/// Writes an entity to the screen's buffer

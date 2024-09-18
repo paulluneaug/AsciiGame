@@ -2,6 +2,8 @@
 #include "Grid.h";
 #include "KeyCode.h"
 
+#include <filesystem>
+
 Game::Game()
 {
 
@@ -130,13 +132,19 @@ void Game::Loop()
 	INPUT_RECORD irInBuf[128];
 	DWORD cNumRead;
 
-	Draw("title.txt");
+	Draw("Ressources\\title.txt");
 
 	while (!m_stoppedGame) 
 	{
 		ProcessInputs(irInBuf, cNumRead, i);
 
 		Draw(*m_level);
+
+		if (m_level->HasFinishedLevel()) {
+			// Done
+			std::cout << "Level Ended !" << std::endl;
+			LoadNextLevel();
+		}
 	}
 }
 
@@ -193,12 +201,12 @@ VOID Game::KeyEventProc(KEY_EVENT_RECORD key)
 	}
 
 	int moveX = 
-		ker.wVirtualKeyCode == KeyCode::ARROW_LEFT ? -1 : 0 +
-		ker.wVirtualKeyCode == KeyCode::ARROW_RIGHT ? 1 : 0;
+		key.wVirtualKeyCode == KeyCode::ARROW_LEFT ? -1 : 0 +
+		key.wVirtualKeyCode == KeyCode::ARROW_RIGHT ? 1 : 0;
 
 	int moveY =
-		ker.wVirtualKeyCode == KeyCode::ARROW_UP ? -1 : 0 +
-		ker.wVirtualKeyCode == KeyCode::ARROW_DOWN ? 1 : 0;
+		key.wVirtualKeyCode == KeyCode::ARROW_UP ? -1 : 0 +
+		key.wVirtualKeyCode == KeyCode::ARROW_DOWN ? 1 : 0;
 
 	if (moveX != 0 || moveY != 0) 
 	{
@@ -206,7 +214,7 @@ VOID Game::KeyEventProc(KEY_EVENT_RECORD key)
 		return;
 	}
 
-	bool reloadLevel = ker.wVirtualKeyCode == KeyCode::KEY_R;
+	bool reloadLevel = key.wVirtualKeyCode == KeyCode::KEY_R;
 	if (reloadLevel) 
 	{
 		ReloadLevel();
@@ -232,7 +240,7 @@ void Game::WriteEntityToBuffer(const Entity& entity)
 	//m_buffer[entity.GetY() * SCREEN_WIDTH + entity.GetX()].Attributes = entity.GetColor();
 }
 
-void Game::NextLevel()
+void Game::LoadNextLevel()
 {
 	LoadLevel(++m_levelIndex);
 }
@@ -245,14 +253,31 @@ void Game::ReloadLevel()
 void Game::LoadLevel(int levelIndex)
 {
 	std::ostringstream ss;
-	ss << "Level" << m_levelIndex << ".txt";
+	ss << "Ressources\\Levels\\Level" << levelIndex << ".txt";
 	std::string newLevelName = ss.str();
+
 
 	if (m_level != nullptr)
 	{
 		delete m_level;
 	}
 	m_level = new Level(newLevelName);
+
+	if (!m_level->HasFoundLevelFile()) 
+	{
+		FinishGame();
+	}
+}
+
+void Game::FinishGame()
+{
+	m_stoppedGame = true;
+
+	Draw("Ressources\\title.txt");
+
+	int dxf;
+	std::cin >> dxf;
+
 }
 
 
