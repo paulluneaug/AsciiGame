@@ -146,6 +146,7 @@
     <ClInclude Include="Target.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Level0.txt" />
     <Text Include="title.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

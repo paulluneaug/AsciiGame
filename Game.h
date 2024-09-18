@@ -39,6 +39,7 @@ private:
 	SMALL_RECT m_rcRegion;
 
 	bool m_stoppedGame;
+	bool m_titleScreen;
 
 
 	bool ReadInt(const std::string& r_line, int& r_out);

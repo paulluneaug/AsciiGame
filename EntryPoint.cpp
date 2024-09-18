@@ -6,15 +6,8 @@
 
 
 int main() {
-
-    Game game = Game();
-    game.Loop();
+Game game = Game();
     
-    /*
-    game.Draw("title.txt");
-
-    int asd;
-    std::cin >> asd;
-    */
+    game.Loop();
 }
 
