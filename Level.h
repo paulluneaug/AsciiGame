@@ -19,9 +19,10 @@ private:
 	Grid* m_grid;
 
 	std::vector<Entity*> m_entities;
-	Player m_player;
+	Player* m_player;
 
 	bool m_loaded;
+	bool m_foundLevelFile;
 
 	int m_currentActivatedTargets;
 	int m_maxTargets;
@@ -32,6 +33,7 @@ public:
 	/// Creates a level
 	/// </summary>
 	Level();
+	Level(const std::string& r_path);
 
 	/// <summary>
 	/// Destroy the level
@@ -100,7 +102,13 @@ public:
 	/// Checks if the level is finished
 	/// </summary>
 	/// <returns>True if the level is finished</returns>
-	bool HasFinishedLevel();
+	bool HasFinishedLevel() const;
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns>True if the level file was found</returns>
+	bool HasFoundLevelFile() const;
 
 private:
 
@@ -112,4 +120,5 @@ private:
 	/// <param name="entityChar">The linked character</param>
 	/// <returns>True if an entity was created</returns>
 	bool AddEntityAtIfNeeded(int x, int y, char entityChar);
+
 };

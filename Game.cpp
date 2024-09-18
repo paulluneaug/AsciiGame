@@ -1,11 +1,16 @@
 ﻿#include "Game.h"
 #include "Grid.h";
+#include "KeyCode.h"
+
+#include <filesystem>
 
 Game::Game()
 {
 
 	m_titleScreen = true;
 	m_stoppedGame = false;
+
+	m_levelIndex = 0;
 
 	m_hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
 	m_hInput = (HANDLE)GetStdHandle(STD_INPUT_HANDLE);
@@ -30,12 +35,13 @@ Game::Game()
 	SetWindowPos(hwnd_console, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DRAWFRAME);
 	ShowWindow(hwnd_console, SW_SHOW);
 
-	m_level.LoadLevelAtPath("Level0.txt");
+
+	LoadLevel(m_levelIndex);
 }
 
 Game::~Game()
 {
-	delete m_buffer;
+	delete[] m_buffer;
 }
 
 void Game::Draw(Level& r_level)
@@ -126,24 +132,40 @@ void Game::Loop()
 	INPUT_RECORD irInBuf[128];
 	DWORD cNumRead;
 
-	Draw("title.txt");
+	Draw("Ressources\\title.txt");
 
-	while (!m_stoppedGame) {
-		if (!ReadConsoleInput(
-			m_hInput,      // input buffer handle
-			irInBuf,     // buffer to read into
-			128,         // size of read buffer
-			&cNumRead)) // number of records read
-			ErrorExit("ReadConsoleInput");
+	while (!m_stoppedGame) 
+	{
+		ProcessInputs(irInBuf, cNumRead, i);
 
-		// Dispatch the events to the appropriate handler.
+		Draw(*m_level);
 
-		for (i = 0; i < cNumRead; i++)
-		{
-			if (irInBuf[i].EventType == KEY_EVENT) {
-				KeyEventProc(irInBuf[i].Event.KeyEvent);
-				break;
-			}
+		if (m_level->HasFinishedLevel()) {
+			// Done
+			std::cout << "Level Ended !" << std::endl;
+			LoadNextLevel();
+		}
+	}
+}
+
+void Game::ProcessInputs(INPUT_RECORD  irInBuf[128], DWORD& cNumRead, DWORD& i)
+{
+	if (!ReadConsoleInput(
+		m_hInput,      // input buffer handle
+		irInBuf,     // buffer to read into
+		128,         // size of read buffer
+		&cNumRead)) // number of records read
+	{
+		ErrorExit("ReadConsoleInput");
+	}
+
+	// Dispatch the events to the appropriate handler.
+
+	for (i = 0; i < cNumRead; i++)
+	{
+		if (irInBuf[i].EventType == KEY_EVENT) {
+			KeyEventProc(irInBuf[i].Event.KeyEvent);
+			break;
 		}
 	}
 }
@@ -172,24 +194,35 @@ VOID Game::KeyEventProc(KEY_EVENT_RECORD key)
 {
 	if (!key.bKeyDown) return;
 
-	if (m_titleScreen) {
+	if (m_titleScreen) 
+	{
 		m_titleScreen = false;
+		return;
 	}
-	else {
-		int moveX = key.wVirtualKeyCode == 37 ? -1 : (key.wVirtualKeyCode == 39 ? 1 : 0);
-		int moveY = key.wVirtualKeyCode == 38 ? -1 : (key.wVirtualKeyCode == 40 ? 1 : 0);
 
-		m_level.GetPlayer().Move(moveX, moveY, m_level.GetGrid(), m_level.GetEntities());
+	int moveX = 
+		key.wVirtualKeyCode == KeyCode::ARROW_LEFT ? -1 : 0 +
+		key.wVirtualKeyCode == KeyCode::ARROW_RIGHT ? 1 : 0;
+
+	int moveY =
+		key.wVirtualKeyCode == KeyCode::ARROW_UP ? -1 : 0 +
+		key.wVirtualKeyCode == KeyCode::ARROW_DOWN ? 1 : 0;
+
+	if (moveX != 0 || moveY != 0) 
+	{
+		m_level->GetPlayer().Move(moveX, moveY, m_level->GetGrid(), m_level->GetEntities());
+		return;
 	}
-	Draw(m_level);
 
-	if (m_level.HasFinishedLevel()) {
-		// Done
-		std::cout << "Level Ended !" << std::endl;
+	bool reloadLevel = key.wVirtualKeyCode == KeyCode::KEY_R;
+	if (reloadLevel) 
+	{
+		ReloadLevel();
+		return;
 	}
 }
 
-char Game::GetCharForTile(unsigned char tile)
+WCHAR Game::GetCharForTile(unsigned char tile)
 {
 	switch (tile) {
 	case Grid::EMPTY_TILE:
@@ -205,6 +238,46 @@ void Game::WriteEntityToBuffer(const Entity& entity)
 {
 	m_buffer[entity.GetY() * SCREEN_WIDTH + entity.GetX()].Char.UnicodeChar = entity.GetChar();
 	//m_buffer[entity.GetY() * SCREEN_WIDTH + entity.GetX()].Attributes = entity.GetColor();
+}
+
+void Game::LoadNextLevel()
+{
+	LoadLevel(++m_levelIndex);
+}
+
+void Game::ReloadLevel()
+{
+	LoadLevel(m_levelIndex);
+}
+
+void Game::LoadLevel(int levelIndex)
+{
+	std::ostringstream ss;
+	ss << "Ressources\\Levels\\Level" << levelIndex << ".txt";
+	std::string newLevelName = ss.str();
+
+
+	if (m_level != nullptr)
+	{
+		delete m_level;
+	}
+	m_level = new Level(newLevelName);
+
+	if (!m_level->HasFoundLevelFile()) 
+	{
+		FinishGame();
+	}
+}
+
+void Game::FinishGame()
+{
+	m_stoppedGame = true;
+
+	Draw("Ressources\\title.txt");
+
+	int dxf;
+	std::cin >> dxf;
+
 }
 
 

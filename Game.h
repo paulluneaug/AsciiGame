@@ -51,10 +51,12 @@ public:
 	/// </summary>
 	void Loop();
 
+	void ProcessInputs(INPUT_RECORD  irInBuf[128], DWORD& cNumRead, DWORD& i);
+
 private:
 
 	CHAR_INFO* m_buffer;
-	Level m_level;
+	Level* m_level;
 
 
 
@@ -69,6 +71,9 @@ private:
 	bool m_stoppedGame;
 	bool m_titleScreen;
 
+	int m_levelIndex;
+
+private:
 
 	/// <summary>
 	/// Convert a string to an int
@@ -95,7 +100,13 @@ private:
 	/// </summary>
 	/// <param name="tile">The tile</param>
 	/// <returns>The tile's character</returns>
-	char GetCharForTile(unsigned char tile);
+	WCHAR GetCharForTile(unsigned char tile);
+
+	void LoadNextLevel();
+	void ReloadLevel();
+	void LoadLevel(int levelIndex);
+
+	void FinishGame();
 
 	/// <summary>
 	/// Writes an entity to the screen's buffer

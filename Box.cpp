@@ -11,6 +11,7 @@ bool Box::Move(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r
 
 		if (m_currentTarget != nullptr) {
 			m_currentTarget->OnExit();
+			m_currentTarget = nullptr;
 		}
 
 		Target* target;
