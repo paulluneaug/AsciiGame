@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include <string>
 #include <sstream>
+#include "Grid.h"
 #include <stdio.h>
 
 #define SCREEN_WIDTH 80
@@ -17,8 +18,8 @@ public:
 
 	Game();
 
-	void Draw(Level& const level);
-	void Draw(std::string const filename);
+	void Draw(Level& r_level);
+	void Draw(const std::string& r_filename);
 	void ClearScreen();
 	void Loop();
 
@@ -38,9 +39,10 @@ private:
 	SMALL_RECT m_rcRegion;
 
 	bool m_stoppedGame;
+	bool m_titleScreen;
 
 
-	bool ReadInt(std::string const line, int& out);
+	bool ReadInt(const std::string& r_line, int& r_out);
 
 	void ErrorExit(LPCSTR);
 	void KeyEventProc(KEY_EVENT_RECORD);

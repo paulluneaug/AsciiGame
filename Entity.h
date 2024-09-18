@@ -1,21 +1,24 @@
 #pragma once
-
-#include "Level.h"
+#include "Grid.h"
 #include "Windows.h"
+#include <vector>
 
 class Entity
 {
 public:
-	virtual bool Move(int dx, int dy, Level& const level);
-	virtual bool CanMoveTo(int dx, int dy, Level& const level);
+	virtual bool Move(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r_allEntities);
+	virtual bool CanMoveTo(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r_allEntities);
 
-	Entity(int x,int y,WCHAR character);
+	Entity(int x, int y, WCHAR character);
 
-	int GetX();
-	int GetY();
+	int GetX() const;
+	int GetY() const;
+	WCHAR GetChar() const;
+	bool CanDraw() const;
 
 protected:
 
+	bool m_canDraw;
 	int m_x;
 	int m_y;
 	WCHAR m_character;
