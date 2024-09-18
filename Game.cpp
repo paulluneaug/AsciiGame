@@ -24,6 +24,12 @@ Game::Game()
 	if (!SetConsoleMode(m_hInput, fdwMode))
 		ErrorExit("SetConsoleMode");
 
+
+	HWND hwnd_console = GetConsoleWindow();
+	LONG_PTR style_ptr = SetWindowLongPtr(hwnd_console, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+	SetWindowPos(hwnd_console, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DRAWFRAME);
+	ShowWindow(hwnd_console, SW_SHOW);
+
 	m_level.LoadLevelAtPath("Level0.txt");
 }
 
