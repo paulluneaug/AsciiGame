@@ -6,8 +6,8 @@
 
 
 int main() {
-
-    Game game = Game();
+Game game = Game();
+    
     game.Loop();
 }
 
