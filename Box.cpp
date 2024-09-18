@@ -1,6 +1,6 @@
 #include "Box.h"
 
-Box::Box(int x, int y, WCHAR character) : Entity(x,y,character)
+Box::Box(int x, int y, WCHAR character, WORD color) : Entity(x,y,character,color)
 {
 	m_currentTarget = nullptr;
 }

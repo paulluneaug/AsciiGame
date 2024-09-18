@@ -1,9 +1,10 @@
-#include "Game.h"
+﻿#include "Game.h"
 #include "Grid.h";
 #include "KeyCode.h"
 
 Game::Game()
 {
+
 	m_titleScreen = true;
 	m_stoppedGame = false;
 
@@ -27,6 +28,12 @@ Game::Game()
 		ErrorExit("SetConsoleMode");
 
 
+	HWND hwnd_console = GetConsoleWindow();
+	LONG_PTR style_ptr = SetWindowLongPtr(hwnd_console, GWL_STYLE, WS_OVERLAPPEDWINDOW);
+	SetWindowPos(hwnd_console, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DRAWFRAME);
+	ShowWindow(hwnd_console, SW_SHOW);
+
+
 	LoadLevel(m_levelIndex);
 }
 
@@ -45,23 +52,23 @@ void Game::Draw(Level& r_level)
 
 			if (r_level.IsInBound(x,y)) {
 				m_buffer[y * SCREEN_WIDTH + x].Char.UnicodeChar = GetCharForTile(r_level.GetTileAtCoordinates(x,y));
+				m_buffer[y * SCREEN_WIDTH + x].Attributes = r_level.GetTileColor(x, y); 
 			}
 			else {
 				m_buffer[y * SCREEN_WIDTH + x].Char.UnicodeChar = ' ';
+				m_buffer[y * SCREEN_WIDTH + x].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
 			}
-
-			m_buffer[y * SCREEN_WIDTH + x].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
 		}
 	}
 
 	for (Entity* entity : r_level.GetEntities()) {
 		if (entity->CanDraw()) {
-			m_buffer[entity->GetY() * SCREEN_WIDTH + entity->GetX()].Char.UnicodeChar = entity->GetChar();
+			WriteEntityToBuffer(*entity);
 		}
 		
 	}
 
-	m_buffer[r_level.GetPlayer().GetY() * SCREEN_WIDTH + r_level.GetPlayer().GetX()].Char.UnicodeChar = r_level.GetPlayer().GetChar();
+	WriteEntityToBuffer(r_level.GetPlayer());
 
 	WriteConsoleOutput(m_hOutput, (CHAR_INFO*)m_buffer, m_dwBufferSize,
 		m_dwBufferCoord, &m_rcRegion);
@@ -152,26 +159,6 @@ void Game::ProcessInputs(INPUT_RECORD  irInBuf[128], DWORD& cNumRead, DWORD& i)
 			KeyEventProc(irInBuf[i].Event.KeyEvent);
 			break;
 		}
-		/*
-		switch (irInBuf[i].EventType)
-		{
-		case KEY_EVENT: // keyboard input
-		KeyEventProc(irInBuf[i].Event.KeyEvent);
-		break;
-
-		case MOUSE_EVENT: // mouse input
-
-		case WINDOW_BUFFER_SIZE_EVENT: // scrn buf. resizing
-
-		case FOCUS_EVENT:  // disregard focus events
-
-		case MENU_EVENT:   // disregard menu events
-		break;
-
-		default:
-		ErrorExit("Unknown event type");
-		break;
-		}*/
 	}
 }
 
@@ -185,9 +172,9 @@ bool Game::ReadInt(const std::string& r_line, int& r_out)
 	return true;
 }
 
-VOID Game::ErrorExit(LPCSTR lpszMessage)
+VOID Game::ErrorExit(LPCSTR error)
 {
-	std::cout << lpszMessage << std::endl;
+	std::cout << error << std::endl;
 
 	// Restore input mode on exit.
 
@@ -195,9 +182,9 @@ VOID Game::ErrorExit(LPCSTR lpszMessage)
 	ExitProcess(0);
 }
 
-VOID Game::KeyEventProc(KEY_EVENT_RECORD ker)
+VOID Game::KeyEventProc(KEY_EVENT_RECORD key)
 {
-	if (!ker.bKeyDown) return;
+	if (!key.bKeyDown) return;
 
 	if (m_titleScreen) 
 	{
@@ -233,10 +220,16 @@ WCHAR Game::GetCharForTile(unsigned char tile)
 	case Grid::EMPTY_TILE:
 		return ' ';
 	case Grid::WALL_TILE:
-		return L'\u03a9';
+		return ' ';
 	}
 
 	return '?';
+}
+
+void Game::WriteEntityToBuffer(const Entity& entity)
+{
+	m_buffer[entity.GetY() * SCREEN_WIDTH + entity.GetX()].Char.UnicodeChar = entity.GetChar();
+	//m_buffer[entity.GetY() * SCREEN_WIDTH + entity.GetX()].Attributes = entity.GetColor();
 }
 
 void Game::NextLevel()
