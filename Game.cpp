@@ -271,7 +271,7 @@ void Game::FinishGame()
 {
 	m_stoppedGame = true;
 
-	Draw("Ressources\\title.txt");
+	Draw("Ressources\\end.txt");
 
 	int dxf;
 	std::cin >> dxf;
