@@ -1,8 +1,9 @@
 #include "Box.h"
 
-Box::Box(int x, int y, WCHAR character, WORD color) : Entity(x,y,character,color)
+Box::Box(int x, int y, WCHAR character, WORD color) : 
+	Entity(x,y,character,color), 
+	m_currentTarget(nullptr)
 {
-	m_currentTarget = nullptr;
 }
 
 bool Box::Move(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r_allEntities)

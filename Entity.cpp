@@ -1,5 +1,16 @@
 #include "Entity.h"
 
+Entity::Entity(int x, int y, WCHAR character, WORD color) :
+	m_x(x),
+	m_y(y),
+	m_character(character),
+	m_canMove(true),
+	m_canDraw(true),
+	m_color(color)
+{
+}
+
+
 bool Entity::Move(int dx, int dy, const Grid& grid, const std::vector<Entity*>& r_allEntities)
 {
 	if (!m_canMove) return false;
@@ -12,16 +23,6 @@ bool Entity::Move(int dx, int dy, const Grid& grid, const std::vector<Entity*>& 
 	this->m_y += dy;
 
 	return true;
-}
-
-Entity::Entity(int x, int y, WCHAR character, WORD color)
-{
-	this->m_x = x;
-	this->m_y = y;
-	this->m_character = character;
-	this->m_canMove = true;
-	this->m_canDraw = true;
-	this->m_color = color;
 }
 
 int Entity::GetX() const

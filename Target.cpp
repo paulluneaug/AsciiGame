@@ -1,9 +1,12 @@
 #include "Target.h"
 #include "Level.h"
 
-Target::Target(int x, int y, WCHAR character, WORD color, Level& level) : Entity(x,y,character,color), m_level(level)
+Target::Target(int x, int y, WCHAR character, WORD color, Level& level) : 
+    Entity(x,y,character,color), 
+    m_level(level) , 
+    m_boxOnTop(false)
 {
-    m_boxOnTop = false;
+    m_canMove = false;
 }
 
 void Target::OnEnter()
