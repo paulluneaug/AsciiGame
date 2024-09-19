@@ -1,6 +1,7 @@
 #pragma once
 #include "Grid.h"
 #include "Windows.h"
+#include "DoubleWChar.h"
 #include <vector>
 
 /// <summary>
@@ -17,7 +18,7 @@ public:
 	/// <param name="y">The entity's y position</param>
 	/// <param name="character">The entity's character</param>
 	/// <param name="color">The entity's color</param>
-	Entity(int x, int y, WCHAR character, WORD color);
+	Entity(int x, int y, DoubleWChar character);
 
 	/// <summary>
 	/// Moves the entity in the specified direction if possible
@@ -60,19 +61,13 @@ public:
 	/// Gets the entity's character
 	/// </summary>
 	/// <returns>The entity's character</returns>
-	WCHAR GetChar() const;
+	const DoubleWChar& GetChars() const;
 	
 	/// <summary>
 	/// Gets if the entity can be drawn
 	/// </summary>
 	/// <returns>True if the entity is drawable</returns>
 	bool CanDraw() const;
-	
-	/// <summary>
-	/// Gets the entity's color
-	/// </summary>
-	/// <returns>The entity's color</returns>
-	WORD GetColor() const;
 
 	/// <summary>
 	/// Changes the entity's position
@@ -93,7 +88,7 @@ protected:
 	bool m_canDraw;
 	int m_x;
 	int m_y;
-	WCHAR m_character;
+	DoubleWChar m_character;
 	bool m_canMove;
 	WORD m_color;
 };

@@ -1,7 +1,7 @@
 #include "Box.h"
 
-Box::Box(int x, int y, WCHAR character, WORD color) : 
-	Entity(x,y,character,color), 
+Box::Box(int x, int y, DoubleWChar character) : 
+	Entity(x, y, character), 
 	m_currentTarget(nullptr)
 {
 }

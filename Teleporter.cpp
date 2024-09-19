@@ -1,8 +1,8 @@
 #include "Teleporter.h"
 #include <assert.h>
 
-Teleporter::Teleporter(int x, int y, WCHAR character, WORD color, int number)
-	: TriggerEntity(x, y, character, color),
+Teleporter::Teleporter(int x, int y, DoubleWChar character, int number)
+	: TriggerEntity(x, y, character),
 	m_number(number),
 	m_linkedTeleporter(nullptr)
 {
