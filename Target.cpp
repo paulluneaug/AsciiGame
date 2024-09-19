@@ -10,12 +10,16 @@ Target::Target(int x, int y, WCHAR character, WORD color, Level& level) :
 
 void Target::OnEnter(Entity* entity)
 {
-    TriggerEntity::OnEnter(entity);
-    m_level.RegisterActivatedTarget();
+    if (dynamic_cast<Box*>(entity) != nullptr) {
+        TriggerEntity::OnEnter(entity);
+        m_level.RegisterActivatedTarget();
+    }
 }
 
 void Target::OnExit(Entity* entity)
 {
-    TriggerEntity::OnExit(entity);
-    m_level.UnregisterActivatedTarget();
+    if (dynamic_cast<Box*>(entity) != nullptr) {
+        TriggerEntity::OnExit(entity);
+        m_level.UnregisterActivatedTarget();
+    }
 }

@@ -42,6 +42,12 @@ public:
 	/// <returns>True if there is an entity on top of the trigger</returns>
 	bool IsEntityOnTop();
 
+	/// <summary>
+	/// Updates the trigger entity
+	/// </summary>
+	void Update() override;
+
+
 protected:
 	Entity* m_entityOnTop;
 };

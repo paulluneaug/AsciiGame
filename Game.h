@@ -51,7 +51,16 @@ public:
 	/// </summary>
 	void Loop();
 
-	void ProcessInputs(INPUT_RECORD  irInBuf[128], DWORD& cNumRead, DWORD& i);
+	/// <summary>
+	/// Process the game's input
+	/// </summary>
+	/// <param name="irInBuf">The inputs buffer</param>
+	void ProcessInputs(INPUT_RECORD  irInBuf[128]);
+
+	/// <summary>
+	/// Updates the level's entities
+	/// </summary>
+	void UpdateEntities();
 
 private:
 

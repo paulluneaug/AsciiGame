@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "TriggerEntity.h"
 
 Entity::Entity(int x, int y, WCHAR character, WORD color) :
 	m_x(x),
@@ -22,7 +23,14 @@ bool Entity::Move(int dx, int dy, const Grid& grid, const std::vector<Entity*>& 
 	this->m_x += dx;
 	this->m_y += dy;
 
-	
+	TriggerEntity* triggerEntity;
+	for (Entity* entity : r_allEntities) {
+		triggerEntity = dynamic_cast<TriggerEntity*>(entity);
+		if (triggerEntity != nullptr && entity->GetX() == m_x && entity->GetY() == m_y) {
+			triggerEntity->OnEnter(this);
+			break;
+		}
+	}
 
 	return true;
 }
@@ -57,4 +65,8 @@ bool Entity::CanMoveTo(int dx, int dy, const Grid& r_grid, const std::vector<Ent
 	int newX = m_x + dx;
 	int newY = m_y + dy;
 	return r_grid.IsInBound(newX, newY) && r_grid.GetTileAtCoordinates(newX, newY) != Grid::WALL_TILE;
+}
+
+void Entity::Update()
+{
 }

@@ -29,3 +29,11 @@ bool TriggerEntity::IsEntityOnTop()
 {
     return m_entityOnTop != nullptr;
 }
+
+void TriggerEntity::Update()
+{
+    if (m_entityOnTop != nullptr &&
+        (m_entityOnTop->GetX() != m_x || m_entityOnTop->GetY() != m_y)) {
+        this->OnExit(m_entityOnTop);
+    }
+}

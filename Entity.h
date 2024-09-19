@@ -40,6 +40,11 @@ public:
 	virtual bool CanMoveTo(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r_allEntities) const;
 
 	/// <summary>
+	/// Updates the entity
+	/// </summary>
+	virtual void Update();
+
+	/// <summary>
 	/// Gets the entity's x position
 	/// </summary>
 	/// <returns>The entity's x position</returns>
