@@ -14,7 +14,7 @@ Display::Display()
 	m_rcRegion = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
 
 	// Font
-	int fontSize = 40;
+	int fontSize = 20;
 
 	CONSOLE_FONT_INFOEX cfi;
 	cfi.cbSize = sizeof(cfi);
