@@ -13,6 +13,7 @@ Display::Display()
 	m_dwBufferCoord = { 0, 0 };
 	m_rcRegion = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
 
+	// Font
 	int fontSize = 40;
 
 	CONSOLE_FONT_INFOEX cfi;
@@ -23,6 +24,12 @@ Display::Display()
 	cfi.FontFamily = FF_DONTCARE;
 	cfi.FontWeight = FW_NORMAL;
 	SetCurrentConsoleFontEx(m_hOutput, false, &cfi);
+
+	// Disable cursor
+	CONSOLE_CURSOR_INFO cursorInfo;
+	GetConsoleCursorInfo(m_hOutput, &cursorInfo);
+	cursorInfo.bVisible = false;
+	SetConsoleCursorInfo(m_hOutput, &cursorInfo);
 
 
 	if (!GetConsoleMode(m_hInput, &m_fdwSaveOldMode))
