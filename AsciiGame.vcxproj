@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Display.cpp" />
     <ClCompile Include="DoubleWChar.cpp" />
     <ClCompile Include="DoubleWCharGlossary.cpp" />
     <ClCompile Include="Door.cpp" />
@@ -145,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="Box.h" />
     <ClInclude Include="ColorGlossary.h" />
+    <ClInclude Include="Display.h" />
     <ClInclude Include="DoubleWChar.h" />
     <ClInclude Include="DoubleWCharGlossary.h" />
     <ClInclude Include="Door.h" />

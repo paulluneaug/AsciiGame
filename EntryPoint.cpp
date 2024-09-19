@@ -7,5 +7,5 @@
 
 int main() {
     Game game = Game();
-    game.Loop();
+    game.Mainloop();
 }
