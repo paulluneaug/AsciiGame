@@ -10,9 +10,8 @@ Key::Key(int x, int y, DoubleWChar character)
 
 void Key::OnEnter(Entity* entity)
 {
-	if (!m_canDraw && dynamic_cast<Player*>(entity) != nullptr) {
+	if (m_canDraw && dynamic_cast<Player*>(entity) != nullptr) {
 		m_canDraw = false;
-
 		Door::open = true;
 	}
 }
