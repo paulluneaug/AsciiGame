@@ -11,7 +11,7 @@ bool Box::Move(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r
 	if (Entity::Move(dx, dy, r_grid, r_allEntities)) {
 
 		if (m_currentTarget != nullptr) {
-			m_currentTarget->OnExit();
+			m_currentTarget->OnExit(this);
 			m_currentTarget = nullptr;
 		}
 
@@ -19,7 +19,7 @@ bool Box::Move(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r
 		for (Entity* entity : r_allEntities) {
 			target = dynamic_cast<Target*>(entity);
 			if (target != nullptr  && entity->GetX() == m_x && entity->GetY() == m_y) {
-				target->OnEnter();
+				target->OnEnter(this);
 				m_currentTarget = target;
 				break;
 			}

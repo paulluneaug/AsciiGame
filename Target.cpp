@@ -2,28 +2,20 @@
 #include "Level.h"
 
 Target::Target(int x, int y, WCHAR character, WORD color, Level& level) : 
-    Entity(x,y,character,color), 
-    m_level(level) , 
-    m_boxOnTop(false)
+    TriggerEntity(x,y,character,color), 
+    m_level(level)
 {
     m_canMove = false;
 }
 
-void Target::OnEnter()
+void Target::OnEnter(Entity* entity)
 {
-    m_boxOnTop = true;
-    m_canDraw = false;
+    TriggerEntity::OnEnter(entity);
     m_level.RegisterActivatedTarget();
 }
 
-void Target::OnExit()
+void Target::OnExit(Entity* entity)
 {
-    m_boxOnTop = false;
-    m_canDraw = true;
+    TriggerEntity::OnExit(entity);
     m_level.UnregisterActivatedTarget();
-}
-
-bool Target::IsBoxOnTop()
-{
-    return m_boxOnTop;
 }

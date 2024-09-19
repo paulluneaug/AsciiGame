@@ -22,6 +22,8 @@ bool Entity::Move(int dx, int dy, const Grid& grid, const std::vector<Entity*>& 
 	this->m_x += dx;
 	this->m_y += dy;
 
+	
+
 	return true;
 }
 
