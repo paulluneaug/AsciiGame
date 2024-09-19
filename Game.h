@@ -51,11 +51,13 @@ public:
 	/// </summary>
 	void Loop();
 
+	
 	/// <summary>
 	/// Process the game's input
 	/// </summary>
 	/// <param name="irInBuf">The inputs buffer</param>
-	void ProcessInputs(INPUT_RECORD  irInBuf[128]);
+	/// <returns>True if an input was processed</returns>
+	bool ProcessInputs(INPUT_RECORD  irInBuf[128]);
 
 	/// <summary>
 	/// Updates the level's entities
@@ -102,7 +104,7 @@ private:
 	/// Handles a key event record
 	/// </summary>
 	/// <param name="event">The record to process</param>
-	void KeyEventProc(KEY_EVENT_RECORD event);
+	bool KeyEventProc(KEY_EVENT_RECORD event);
 
 	/// <summary>
 	/// Finds a tile's character

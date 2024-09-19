@@ -141,9 +141,14 @@ void Game::Loop()
 
 	while (!m_stoppedGame)
 	{
-		ProcessInputs(irInBuf);
+		bool inputProcessed = ProcessInputs(irInBuf);
+		if (!inputProcessed)
+		{
+			continue;
+		}
 
 		UpdateEntities();
+
 
 		Draw(*m_level);
 
@@ -153,7 +158,7 @@ void Game::Loop()
 	}
 }
 
-void Game::ProcessInputs(INPUT_RECORD  irInBuf[128])
+bool Game::ProcessInputs(INPUT_RECORD  irInBuf[128])
 {
 	DWORD cNumRead;
 	DWORD i;
@@ -165,18 +170,20 @@ void Game::ProcessInputs(INPUT_RECORD  irInBuf[128])
 		&cNumRead)) // number of records read
 	{
 		ErrorExit("ReadConsoleInput");
+		return false;
 	}
 
 
 	// Dispatch the events to the appropriate handler.
-
+	bool processedInput = false;
 	for (i = 0; i < cNumRead; i++)
 	{
 		if (irInBuf[i].EventType == KEY_EVENT) {
-			KeyEventProc(irInBuf[i].Event.KeyEvent);
+			processedInput |= KeyEventProc(irInBuf[i].Event.KeyEvent);
 			break;
 		}
 	}
+	return processedInput;
 }
 
 void Game::UpdateEntities()
@@ -206,14 +213,14 @@ VOID Game::ErrorExit(LPCSTR error)
 	ExitProcess(0);
 }
 
-VOID Game::KeyEventProc(KEY_EVENT_RECORD key)
+bool Game::KeyEventProc(KEY_EVENT_RECORD key)
 {
-	if (!key.bKeyDown) return;
+	if (!key.bKeyDown) return false;
 
 	if (m_titleScreen)
 	{
 		m_titleScreen = false;
-		return;
+		return false;
 	}
 
 	int moveX =
@@ -227,15 +234,16 @@ VOID Game::KeyEventProc(KEY_EVENT_RECORD key)
 	if (moveX != 0 || moveY != 0)
 	{
 		m_level->GetPlayer().Move(moveX, moveY, m_level->GetGrid(), m_level->GetEntities());
-		return;
+		return true;
 	}
 
 	bool reloadLevel = key.wVirtualKeyCode == KeyCode::KEY_R;
 	if (reloadLevel)
 	{
 		ReloadLevel();
-		return;
+		return true;
 	}
+	return false;
 }
 
 void Game::GetCharForTile(unsigned char tile, DoubleWChar& r_outChars)
