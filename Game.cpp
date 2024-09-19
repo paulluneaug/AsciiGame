@@ -12,7 +12,7 @@ Game::Game()
 	m_titleScreen = true;
 	m_stoppedGame = false;
 
-	m_levelIndex = 7;
+	m_levelIndex = 0;
 
 	m_hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
 	m_hInput = (HANDLE)GetStdHandle(STD_INPUT_HANDLE);
