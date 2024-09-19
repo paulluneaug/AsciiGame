@@ -16,7 +16,6 @@ public:
 	/// <param name="x">The player's x position</param>
 	/// <param name="y">The player's y position</param>
 	/// <param name="character">The player's character</param>
-	/// <param name="color">The player's color</param>
 	Player(int x, int y, DoubleWChar character);
 
 	/// <summary>

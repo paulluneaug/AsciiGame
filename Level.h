@@ -34,6 +34,11 @@ public:
 	/// Creates a level
 	/// </summary>
 	Level();
+
+	/// <summary>
+	/// Creates a level
+	/// </summary>
+	/// <param name="r_path">The filepath to the level</param>
 	Level(const std::string& r_path);
 
 	/// <summary>

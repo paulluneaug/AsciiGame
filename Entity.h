@@ -17,7 +17,6 @@ public:
 	/// <param name="x">The entity's x position</param>
 	/// <param name="y">The entity's y position</param>
 	/// <param name="character">The entity's character</param>
-	/// <param name="color">The entity's color</param>
 	Entity(int x, int y, DoubleWChar character);
 
 	/// <summary>
