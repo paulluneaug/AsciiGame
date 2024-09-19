@@ -20,8 +20,8 @@ bool Entity::Move(int dx, int dy, const Grid& grid, const std::vector<Entity*>& 
 		return false;
 	}
 
-	this->m_x += dx;
-	this->m_y += dy;
+	m_x += dx;
+	m_y += dy;
 
 	TriggerEntity* triggerEntity;
 	for (Entity* entity : r_allEntities) {
@@ -58,6 +58,12 @@ bool Entity::CanDraw() const
 WORD Entity::GetColor() const
 {
 	return m_color;
+}
+
+void Entity::SetPosition(int x, int y)
+{
+	m_x = x;
+	m_y = y;
 }
 
 bool Entity::CanMoveTo(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r_allEntities) const

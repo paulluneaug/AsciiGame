@@ -74,6 +74,13 @@ public:
 	/// <returns>The entity's color</returns>
 	WORD GetColor() const;
 
+	/// <summary>
+	/// Changes the entity's position
+	/// </summary>
+	/// <param name="x">The new X position</param>
+	/// <param name="y">The new Y position</param>
+	void SetPosition(int x, int y);
+
 protected:
 
 	bool m_canDraw;

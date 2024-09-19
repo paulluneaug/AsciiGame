@@ -8,15 +8,16 @@ TriggerEntity::TriggerEntity(int x, int y, WCHAR character, WORD color)
 
 void TriggerEntity::OnEnter(Entity* entity)
 {
-    m_canDraw = false;
-    m_entityOnTop = entity;
+    if (m_entityOnTop != entity) {
+        OnExit(m_entityOnTop);
+    }
+    SetEntityOnTop(entity);
 }
 
 void TriggerEntity::OnExit(Entity* entity)
 {
     if (m_entityOnTop == entity && entity != nullptr) {
-        m_canDraw = true;
-        m_entityOnTop = nullptr;
+        SetEntityOnTop(nullptr);
     }
 }
 
@@ -36,4 +37,10 @@ void TriggerEntity::Update()
         (m_entityOnTop->GetX() != m_x || m_entityOnTop->GetY() != m_y)) {
         this->OnExit(m_entityOnTop);
     }
+}
+
+void TriggerEntity::SetEntityOnTop(Entity* entity)
+{
+    m_canDraw = entity == nullptr;
+    m_entityOnTop = entity;
 }

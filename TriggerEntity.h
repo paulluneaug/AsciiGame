@@ -47,6 +47,14 @@ public:
 	/// </summary>
 	void Update() override;
 
+protected:
+
+	/// <summary>
+	/// Sets the current entity on top
+	/// If the entity is not nullptr, hides the trigger
+	/// </summary>
+	/// <param name="entity">The entity on top</param>
+	void SetEntityOnTop(Entity* entity);
 
 protected:
 	Entity* m_entityOnTop;

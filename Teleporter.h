@@ -19,9 +19,35 @@ public:
 	/// <param name="number">The teleporter's number</param>
 	Teleporter(int x, int y, WCHAR character, WORD color, int number);
 
+	/// <summary>
+	/// Sets the teleporter's linked teleporter
+	/// </summary>
+	/// <param name="linkedTeleporter">The linked teleporter</param>
+	void SetLinkedTeleporter(Teleporter* linkedTeleporter);
+
+
+	/// <summary>
+	/// Teleports an entity to the teleporter
+	/// </summary>
+	/// <param name="entity">The entity to teleport</param>
+	void TeleportEntity(Entity* entity);
+
+
+	/// <summary>
+	/// Called when an entity walks on the teleporter
+	/// </summary>
+	/// <param name="entity">The entity that is now on top</param>
+	virtual void OnEnter(Entity* entity) override;
+
+	/// <summary>
+	/// Called when an entity leaves the target
+	/// </summary>
+	/// <param name="entity">The entity that leaved the teleporter</param>
+	virtual void OnExit(Entity* entity) override;
+
 private:
 
 	int m_number;
-	Entity* m_linkedTeleporter;
+	Teleporter* m_linkedTeleporter;
 };
 
