@@ -17,7 +17,7 @@ public:
 	/// <param name="y">The box's y position</param>
 	/// <param name="character">The box's character</param>
 	/// <param name="color">The box's color</param>
-	Box(int x, int y, WCHAR character, WORD color);
+	Box(int x, int y, DoubleWChar character);
 
 	/// <summary>
 	/// Moves the box in the specified direction if possible

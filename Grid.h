@@ -12,7 +12,7 @@ public:
 	static const unsigned char WALL_TILE = 1;
 	static const unsigned char INVALID_TILE = 255;
 
-	static const WORD WALL_COLOR = BACKGROUND_RED | BACKGROUND_GREEN;
+	static const WORD WALL_COLOR = BACKGROUND_RED | BACKGROUND_GREEN | FOREGROUND_RED | FOREGROUND_GREEN;
 	static const WORD DEFAULT_COLOR = BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_GREEN;
 	static const WORD EMPTY_COLOR = BACKGROUND_RED;
 
@@ -74,14 +74,6 @@ public:
 	/// <param name="y">The tile's y coordinate</param>
 	/// <param name="newChar">The new tile's value</param>
 	void SetTile(int x, int y, char newChar);
-
-	/// <summary>
-	/// Gets a tile's color
-	/// </summary>
-	/// <param name="x">The tile's x coordinate</param>
-	/// <param name="y">The tile's y coordinate</param>
-	/// <returns>The tile's color</returns>
-	WORD GetTileColorAtCoordinates(int x,int y) const;
 
 	/// <summary>
 	/// Prints the grid to the console

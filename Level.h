@@ -3,9 +3,9 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
-#include <set>
 
 #include "Entity.h"
 #include "Player.h"
@@ -62,7 +62,7 @@ public:
 	/// <param name="y">The tile's y coordinate</param>
 	/// <returns>The tile</returns>
 	unsigned char GetTileAtCoordinates(int x, int y) const;
-	
+
 	/// <summary>
 	/// Gets the player
 	/// </summary>
@@ -80,14 +80,6 @@ public:
 	/// </summary>
 	/// <returns>The grid</returns>
 	const Grid& GetGrid() const;
-
-	/// <summary>
-	/// Gets a tile's color
-	/// </summary>
-	/// <param name="x">The tile's x coordinate</param>
-	/// <param name="y">The tile's y coordinate</param>
-	/// <returns>The tile's color</returns>
-	WORD GetTileColor(int x, int y) const;
 
 	/// <summary>
 	/// Registers an activated target

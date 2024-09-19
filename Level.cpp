@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "Box.h"
+#include "DoubleWCharGlossary.h"
 #include "Target.h"
 #include "Teleporter.h"
 
@@ -67,11 +68,6 @@ const Grid& Level::GetGrid() const
 {
 	assert(m_loaded);
 	return *m_grid;
-}
-
-WORD Level::GetTileColor(int x, int y) const
-{
-	return m_grid->GetTileColorAtCoordinates(x,y);
 }
 
 void Level::RegisterActivatedTarget()
@@ -150,7 +146,7 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 
 			m_grid->SetTile(iChar, iLine, tileChar);
 
-			AddEntityAtIfNeeded(iChar, iLine, tileChar,teleporters);
+			AddEntityAtIfNeeded(iChar, iLine, tileChar, teleporters);
 			++iChar;
 		}
 		++iLine;
@@ -162,7 +158,7 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 	m_loaded = true;
 }
 
-bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar, std::vector<Teleporter*> &teleporters)
+bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar, std::vector<Teleporter*>& teleporters)
 {
 	Entity* newEntity = nullptr;
 	int number;
@@ -170,24 +166,29 @@ bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar, std::vector<Telep
 	switch (entityChar)
 	{
 	case 'P':
-		m_player = new Player(x, y, L'☺', BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_INTENSITY);
+		m_player = new Player(x, y, DoubleWCharGlossary::PLAYER_CHAR);
 		return true;
+
 	case 'B':
-		newEntity = new Box(x, y, L'█', BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
+		newEntity = new Box(x, y, DoubleWCharGlossary::BOX_CHAR);
 		break;
+
 	case 'T':
-		newEntity = new Target(x, y, L'○', BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_INTENSITY,*this);
+		newEntity = new Target(x, y, DoubleWCharGlossary::TARGET_CHAR, *this);
 		m_maxTargets++;
 		break;
-	case '0': case '1': case '2': case '3' : case '4' : case '5' : case '6' : case '7' : case '8' : case '9' :
+
+	case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
 		number = entityChar - '0';
 
-		teleporter = new Teleporter(x, y, entityChar, BACKGROUND_RED | BACKGROUND_BLUE, number);
-		if (teleporters[number] != nullptr) {
+		teleporter = new Teleporter(x, y, DoubleWChar('@', entityChar, ColorGlossary::TELEPORTER_COLOR), number);
+		if (teleporters[number] != nullptr)
+		{
 			teleporter->SetLinkedTeleporter(teleporters[number]);
 			teleporters[number]->SetLinkedTeleporter(teleporter);
 		}
-		else {
+		else
+		{
 			teleporters[number] = teleporter;
 		}
 		newEntity = teleporter;

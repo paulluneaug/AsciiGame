@@ -14,10 +14,9 @@ public:
 	/// </summary>
 	/// <param name="x">The teleporter's x position</param>
 	/// <param name="y">The teleporter's y position</param>
-	/// <param name="character">The teleporter's character</param>
-	/// <param name="color">The teleporter's color</param>
+	/// <param name="character">The teleporter's characters and color</param>
 	/// <param name="number">The teleporter's number</param>
-	Teleporter(int x, int y, WCHAR character, WORD color, int number);
+	Teleporter(int x, int y, DoubleWChar character, int number);
 
 	/// <summary>
 	/// Sets the teleporter's linked teleporter

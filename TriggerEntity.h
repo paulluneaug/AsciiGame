@@ -14,9 +14,8 @@ public:
 	/// </summary>
 	/// <param name="x">The entity's x position</param>
 	/// <param name="y">The entity's y position</param>
-	/// <param name="character">The entity's character</param>
-	/// <param name="color">The entity's color</param>
-	TriggerEntity(int x, int y, WCHAR character, WORD color);
+	/// <param name="character">The entity's characters and color</param>
+	TriggerEntity(int x, int y, DoubleWChar character);
 
 	/// <summary>
 	/// Called when an entity walks on the trigger

@@ -1,8 +1,8 @@
-#include "Target.h"
 #include "Level.h"
+#include "Target.h"
 
-Target::Target(int x, int y, WCHAR character, WORD color, Level& level) : 
-    TriggerEntity(x,y,character,color), 
+Target::Target(int x, int y, DoubleWChar character, Level& level) : 
+    TriggerEntity(x, y, character), 
     m_level(level)
 {
     m_canMove = false;

@@ -1,8 +1,10 @@
 ﻿#include "Game.h"
 #include "Grid.h";
 #include "KeyCode.h"
+#include <tuple>
 
-#include <filesystem>
+//#include <filesystem>
+#include "DoubleWCharGlossary.h"
 
 Game::Game()
 {
@@ -46,19 +48,25 @@ Game::~Game()
 
 void Game::Draw(Level& r_level)
 {
-	int levelWidth = r_level.GetGrid().GetWidth();
-	int levelHeight = r_level.GetGrid().GetHeight();
+	DoubleWChar tileChars = DoubleWCharGlossary::OOB_TILE_CHAR;
+	DoubleWChar oobTiles = DoubleWCharGlossary::OOB_TILE_CHAR;
+
+	const Grid& levelGrid = r_level.GetGrid();
+	int levelWidth = levelGrid.GetWidth();
+	int levelHeight = levelGrid.GetHeight();
 
 	for (int y = 0; y < SCREEN_HEIGHT; y++) {
-		for (int x = 0; x < SCREEN_WIDTH; x++) {
+		for (int x = 0; x < SCREEN_WIDTH / 2; x++) {
 
-			if (r_level.IsInBound(x,y)) {
-				m_buffer[y * SCREEN_WIDTH + x].Char.UnicodeChar = GetCharForTile(r_level.GetTileAtCoordinates(x,y));
-				m_buffer[y * SCREEN_WIDTH + x].Attributes = r_level.GetTileColor(x, y); 
+			if (r_level.IsInBound(x, y))
+			{
+				GetCharForTile(r_level.GetTileAtCoordinates(x, y), tileChars);
+
+				tileChars.InsertIn(m_buffer, y * SCREEN_WIDTH + x * 2);
+
 			}
 			else {
-				m_buffer[y * SCREEN_WIDTH + x].Char.UnicodeChar = ' ';
-				m_buffer[y * SCREEN_WIDTH + x].Attributes = BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED;
+				oobTiles.InsertIn(m_buffer, y * SCREEN_WIDTH + x * 2);
 			}
 		}
 	}
@@ -67,7 +75,7 @@ void Game::Draw(Level& r_level)
 		if (entity->CanDraw()) {
 			WriteEntityToBuffer(*entity);
 		}
-		
+
 	}
 
 	WriteEntityToBuffer(r_level.GetPlayer());
@@ -132,7 +140,7 @@ void Game::Loop()
 
 	Draw("Ressources\\title.txt");
 
-	while (!m_stoppedGame) 
+	while (!m_stoppedGame)
 	{
 		ProcessInputs(irInBuf);
 
@@ -203,13 +211,13 @@ VOID Game::KeyEventProc(KEY_EVENT_RECORD key)
 {
 	if (!key.bKeyDown) return;
 
-	if (m_titleScreen) 
+	if (m_titleScreen)
 	{
 		m_titleScreen = false;
 		return;
 	}
 
-	int moveX = 
+	int moveX =
 		key.wVirtualKeyCode == KeyCode::ARROW_LEFT ? -1 : 0 +
 		key.wVirtualKeyCode == KeyCode::ARROW_RIGHT ? 1 : 0;
 
@@ -217,35 +225,39 @@ VOID Game::KeyEventProc(KEY_EVENT_RECORD key)
 		key.wVirtualKeyCode == KeyCode::ARROW_UP ? -1 : 0 +
 		key.wVirtualKeyCode == KeyCode::ARROW_DOWN ? 1 : 0;
 
-	if (moveX != 0 || moveY != 0) 
+	if (moveX != 0 || moveY != 0)
 	{
 		m_level->GetPlayer().Move(moveX, moveY, m_level->GetGrid(), m_level->GetEntities());
 		return;
 	}
 
 	bool reloadLevel = key.wVirtualKeyCode == KeyCode::KEY_R;
-	if (reloadLevel) 
+	if (reloadLevel)
 	{
 		ReloadLevel();
 		return;
 	}
 }
 
-WCHAR Game::GetCharForTile(unsigned char tile)
+void Game::GetCharForTile(unsigned char tile, DoubleWChar& r_outChars)
 {
 	switch (tile) {
 	case Grid::EMPTY_TILE:
-		return ' ';
+		r_outChars = DoubleWCharGlossary::EMPTY_TILE_CHAR;
+		return;
 	case Grid::WALL_TILE:
-		return ' ';
+		r_outChars = DoubleWCharGlossary::WALL_TILE_CHAR;
+		return;
 	}
 
-	return '?';
+	r_outChars = DoubleWChar('?', '?', BACKGROUND_BLUE | BACKGROUND_RED | BACKGROUND_INTENSITY);
+	return;
 }
 
 void Game::WriteEntityToBuffer(const Entity& entity)
 {
-	m_buffer[entity.GetY() * SCREEN_WIDTH + entity.GetX()].Char.UnicodeChar = entity.GetChar();
+	DoubleWChar entityChar = entity.GetChars();
+	entityChar.InsertIn(m_buffer, entity.GetY() * SCREEN_WIDTH + entity.GetX() * 2);
 	//m_buffer[entity.GetY() * SCREEN_WIDTH + entity.GetX()].Attributes = entity.GetColor();
 }
 
@@ -272,7 +284,7 @@ void Game::LoadLevel(int levelIndex)
 	}
 	m_level = new Level(newLevelName);
 
-	if (!m_level->HasFoundLevelFile()) 
+	if (!m_level->HasFoundLevelFile())
 	{
 		FinishGame();
 	}

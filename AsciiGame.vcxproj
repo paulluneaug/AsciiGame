@@ -127,6 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DoubleWChar.cpp" />
+    <ClCompile Include="DoubleWCharGlossary.cpp" />
     <ClCompile Include="EntryPoint.cpp" />
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -140,6 +142,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Box.h" />
+    <ClInclude Include="ColorGlossary.h" />
+    <ClInclude Include="DoubleWChar.h" />
+    <ClInclude Include="DoubleWCharGlossary.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Grid.h" />

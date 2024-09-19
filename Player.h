@@ -17,7 +17,7 @@ public:
 	/// <param name="y">The player's y position</param>
 	/// <param name="character">The player's character</param>
 	/// <param name="color">The player's color</param>
-	Player(int x, int y, WCHAR character, WORD color);
+	Player(int x, int y, DoubleWChar character);
 
 	/// <summary>
 	/// Moves the player in the specified direction if possible
