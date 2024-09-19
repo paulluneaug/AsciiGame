@@ -18,7 +18,7 @@ public:
 	/// <param name="character">The target's character</param>
 	/// <param name="color">The target's color</param>
 	/// <param name="level">The level's reference</param>
-	Target(int x, int y, WCHAR character, WORD color, Level& level);
+	Target(int x, int y, DoubleWChar character, Level& level);
 
 	/// <summary>
 	/// Activate the target

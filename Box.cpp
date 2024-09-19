@@ -1,6 +1,6 @@
 #include "Box.h"
 
-Box::Box(int x, int y, WCHAR character, WORD color) : Entity(x,y,character,color)
+Box::Box(int x, int y, DoubleWChar character) : Entity(x, y, character)
 {
 	m_currentTarget = nullptr;
 }
@@ -17,7 +17,7 @@ bool Box::Move(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r
 		Target* target;
 		for (Entity* entity : r_allEntities) {
 			target = dynamic_cast<Target*>(entity);
-			if (target != nullptr  && entity->GetX() == m_x && entity->GetY() == m_y) {
+			if (target != nullptr && entity->GetX() == m_x && entity->GetY() == m_y) {
 				target->OnEnter();
 				m_currentTarget = target;
 				break;

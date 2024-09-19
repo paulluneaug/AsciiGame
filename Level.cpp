@@ -5,6 +5,7 @@
 
 #include "Box.h"
 #include "Target.h"
+#include "DoubleWCharGlossary.h"
 
 Level::Level() :
 	m_player(nullptr),
@@ -66,11 +67,6 @@ const Grid& Level::GetGrid() const
 {
 	assert(m_loaded);
 	return *m_grid;
-}
-
-WORD Level::GetTileColor(int x, int y) const
-{
-	return m_grid->GetTileColorAtCoordinates(x,y);
 }
 
 void Level::RegisterActivatedTarget()
@@ -164,13 +160,13 @@ bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar)
 	switch (entityChar)
 	{
 	case 'P':
-		m_player = new Player(x, y, L'☺', BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_INTENSITY);
+		m_player = new Player(x, y, DoubleWCharGlossary::PLAYER_CHAR);
 		return true;
 	case 'B':
-		newEntity = new Box(x, y, L'█', BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
+		newEntity = new Box(x, y, DoubleWCharGlossary::BOX_CHAR);
 		break;
 	case 'T':
-		newEntity = new Target(x, y, L'○', BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_INTENSITY,*this);
+		newEntity = new Target(x, y, DoubleWCharGlossary::TARGET_CHAR, *this);
 		m_maxTargets++;
 		break;
 	default:

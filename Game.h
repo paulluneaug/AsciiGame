@@ -100,7 +100,7 @@ private:
 	/// </summary>
 	/// <param name="tile">The tile</param>
 	/// <returns>The tile's character</returns>
-	WCHAR GetCharForTile(unsigned char tile);
+	void GetCharForTile(unsigned char tile, DoubleWChar& r_outChars);
 
 	void LoadNextLevel();
 	void ReloadLevel();
