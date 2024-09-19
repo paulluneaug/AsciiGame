@@ -1,26 +1,25 @@
 #include "Level.h"
 #include "Target.h"
 
-Target::Target(int x, int y, DoubleWChar character, Level& level) : Entity(x, y, character), m_level(level)
+Target::Target(int x, int y, DoubleWChar character, Level& level) : 
+    TriggerEntity(x, y, character), 
+    m_level(level)
 {
-	m_boxOnTop = false;
+    m_canMove = false;
 }
 
-void Target::OnEnter()
+void Target::OnEnter(Entity* entity)
 {
-	m_boxOnTop = true;
-	m_canDraw = false;
-	m_level.RegisterActivatedTarget();
+    TriggerEntity::OnEnter(entity);
+    if (dynamic_cast<Box*>(entity) != nullptr) {
+        m_level.RegisterActivatedTarget();
+    }
 }
 
-void Target::OnExit()
+void Target::OnExit(Entity* entity)
 {
-	m_boxOnTop = false;
-	m_canDraw = true;
-	m_level.UnregisterActivatedTarget();
-}
-
-bool Target::IsBoxOnTop()
-{
-	return m_boxOnTop;
+    TriggerEntity::OnExit(entity);
+    if (dynamic_cast<Box*>(entity) != nullptr) {
+        m_level.UnregisterActivatedTarget();
+    }
 }

@@ -41,6 +41,11 @@ public:
 	virtual bool CanMoveTo(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r_allEntities) const;
 
 	/// <summary>
+	/// Updates the entity
+	/// </summary>
+	virtual void Update();
+
+	/// <summary>
 	/// Gets the entity's x position
 	/// </summary>
 	/// <returns>The entity's x position</returns>
@@ -63,6 +68,13 @@ public:
 	/// </summary>
 	/// <returns>True if the entity is drawable</returns>
 	bool CanDraw() const;
+
+	/// <summary>
+	/// Changes the entity's position
+	/// </summary>
+	/// <param name="x">The new X position</param>
+	/// <param name="y">The new Y position</param>
+	void SetPosition(int x, int y);
 
 protected:
 

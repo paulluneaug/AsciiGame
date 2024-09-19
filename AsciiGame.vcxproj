@@ -137,6 +137,8 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Target.cpp" />
+    <ClCompile Include="Teleporter.cpp" />
+    <ClCompile Include="TriggerEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Box.h" />
@@ -150,6 +152,8 @@
     <ClInclude Include="Level.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Target.h" />
+    <ClInclude Include="Teleporter.h" />
+    <ClInclude Include="TriggerEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Level0.txt" />

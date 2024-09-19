@@ -9,6 +9,7 @@
 
 #include "Entity.h"
 #include "Player.h"
+#include "Teleporter.h"
 
 /// <summary>
 /// Represents a level
@@ -110,7 +111,8 @@ private:
 	/// <param name="x">The entity's x position</param>
 	/// <param name="y">The entity's y position</param>
 	/// <param name="entityChar">The linked character</param>
+	/// <param name="teleporters">The array of currently created pairs of teleporters</param>
 	/// <returns>True if an entity was created</returns>
-	bool AddEntityAtIfNeeded(int x, int y, char entityChar);
+	bool AddEntityAtIfNeeded(int x, int y, char entityChar, std::vector<Teleporter*> &teleporters);
 
 };

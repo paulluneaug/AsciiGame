@@ -1,28 +1,15 @@
 #include "Box.h"
 
-Box::Box(int x, int y, DoubleWChar character) : Entity(x, y, character)
+Box::Box(int x, int y, DoubleWChar character) : 
+	Entity(x, y, character), 
+	m_currentTarget(nullptr)
 {
-	m_currentTarget = nullptr;
 }
 
 bool Box::Move(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r_allEntities)
 {
 	if (Entity::Move(dx, dy, r_grid, r_allEntities)) {
 
-		if (m_currentTarget != nullptr) {
-			m_currentTarget->OnExit();
-			m_currentTarget = nullptr;
-		}
-
-		Target* target;
-		for (Entity* entity : r_allEntities) {
-			target = dynamic_cast<Target*>(entity);
-			if (target != nullptr && entity->GetX() == m_x && entity->GetY() == m_y) {
-				target->OnEnter();
-				m_currentTarget = target;
-				break;
-			}
-		}
 		return true;
 	}
 	return false;

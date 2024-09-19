@@ -6,6 +6,7 @@
 #include "Box.h"
 #include "Target.h"
 #include "DoubleWCharGlossary.h"
+#include "Teleporter.h"
 
 Level::Level() :
 	m_player(nullptr),
@@ -119,6 +120,9 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 	m_maxTargets = 0;
 	m_currentActivatedTargets = 0;
 
+	// There will be 10 possible teleporters (0 - 9)
+	std::vector<Teleporter*> teleporters(10);
+
 	// Goes through the rest of the file
 	int iLine = 0;
 	while (!levelFile.eof())
@@ -142,7 +146,7 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 
 			m_grid->SetTile(iChar, iLine, tileChar);
 
-			AddEntityAtIfNeeded(iChar, iLine, tileChar);
+			AddEntityAtIfNeeded(iChar, iLine, tileChar,teleporters);
 			++iChar;
 		}
 		++iLine;
@@ -154,9 +158,11 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 	m_loaded = true;
 }
 
-bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar)
+bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar, std::vector<Teleporter*> &teleporters)
 {
 	Entity* newEntity = nullptr;
+	int number;
+	Teleporter* teleporter;
 	switch (entityChar)
 	{
 	case 'P':
@@ -169,6 +175,20 @@ bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar)
 		newEntity = new Target(x, y, DoubleWCharGlossary::TARGET_CHAR, *this);
 		m_maxTargets++;
 		break;
+	case '0': case '1': case '2': case '3' : case '4' : case '5' : case '6' : case '7' : case '8' : case '9' :
+		number = entityChar - '0';
+
+		teleporter = new Teleporter(x, y, entityChar, BACKGROUND_RED | BACKGROUND_BLUE, number);
+		if (teleporters[number] != nullptr) {
+			teleporter->SetLinkedTeleporter(teleporters[number]);
+			teleporters[number]->SetLinkedTeleporter(teleporter);
+		}
+		else {
+			teleporters[number] = teleporter;
+		}
+		newEntity = teleporter;
+		break;
+
 	default:
 		return false;
 	}

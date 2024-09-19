@@ -136,15 +136,15 @@ void Game::ClearScreen()
 
 void Game::Loop()
 {
-	DWORD i;
 	INPUT_RECORD irInBuf[128];
-	DWORD cNumRead;
 
 	Draw("Ressources\\title.txt");
 
 	while (!m_stoppedGame)
 	{
-		ProcessInputs(irInBuf, cNumRead, i);
+		ProcessInputs(irInBuf);
+
+		UpdateEntities();
 
 		Draw(*m_level);
 
@@ -154,8 +154,11 @@ void Game::Loop()
 	}
 }
 
-void Game::ProcessInputs(INPUT_RECORD  irInBuf[128], DWORD& cNumRead, DWORD& i)
+void Game::ProcessInputs(INPUT_RECORD  irInBuf[128])
 {
+	DWORD cNumRead;
+	DWORD i;
+
 	if (!ReadConsoleInput(
 		m_hInput,      // input buffer handle
 		irInBuf,     // buffer to read into
@@ -165,6 +168,7 @@ void Game::ProcessInputs(INPUT_RECORD  irInBuf[128], DWORD& cNumRead, DWORD& i)
 		ErrorExit("ReadConsoleInput");
 	}
 
+
 	// Dispatch the events to the appropriate handler.
 
 	for (i = 0; i < cNumRead; i++)
@@ -173,6 +177,13 @@ void Game::ProcessInputs(INPUT_RECORD  irInBuf[128], DWORD& cNumRead, DWORD& i)
 			KeyEventProc(irInBuf[i].Event.KeyEvent);
 			break;
 		}
+	}
+}
+
+void Game::UpdateEntities()
+{
+	for (Entity* entity : m_level->GetEntities()) {
+		entity->Update();
 	}
 }
 
@@ -283,7 +294,7 @@ void Game::FinishGame()
 {
 	m_stoppedGame = true;
 
-	Draw("Ressources\\title.txt");
+	Draw("Ressources\\end.txt");
 
 	int dxf;
 	std::cin >> dxf;

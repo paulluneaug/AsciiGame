@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Entity.h"
+#include "TriggerEntity.h"
 
 class Level;
 
 /// <summary>
 /// Represents a target
 /// </summary>
-class Target : public Entity
+class Target : public TriggerEntity
 {
 public:
 	/// <summary>
@@ -21,22 +21,17 @@ public:
 	Target(int x, int y, DoubleWChar character, Level& level);
 
 	/// <summary>
-	/// Activate the target
+	/// Called when an entity walks on the target
 	/// </summary>
-	void OnEnter();
+	/// <param name="entity">The entity that is now on top</param>
+	virtual void OnEnter(Entity* entity) override;
 
 	/// <summary>
-	/// Deactivate the target
+	/// Called when an entity leaves the target
 	/// </summary>
-	void OnExit();
-
-	/// <summary>
-	/// Checks if a box is on top of the target
-	/// </summary>
-	/// <returns>True if a box is on top of the target</returns>
-	bool IsBoxOnTop();
+	/// <param name="entity">The entity that leaved the target</param>
+	virtual void OnExit(Entity* entity) override;
 
 private:
-	bool m_boxOnTop;
 	Level& m_level;
 };

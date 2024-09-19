@@ -1,6 +1,7 @@
 #include "Player.h"
 
-Player::Player(int x, int y, DoubleWChar character) : Entity(x, y, character)
+Player::Player(int x, int y, DoubleWChar character) : 
+	Entity(x, y, character)
 {
 }
 
