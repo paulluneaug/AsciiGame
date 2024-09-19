@@ -14,7 +14,6 @@ public:
 	/// <param name="x">The door's x position</param>
 	/// <param name="y">The door's y position</param>
 	/// <param name="character">The door's character</param>
-	/// <param name="color">The door's color</param>
 	Door(int x, int y, DoubleWChar character);
 
 	/// <summary>

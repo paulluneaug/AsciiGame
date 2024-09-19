@@ -15,7 +15,6 @@ public:
 	/// <param name="x">The key's x position</param>
 	/// <param name="y">The key's y position</param>
 	/// <param name="character">The key's character</param>
-	/// <param name="color">The key's color</param>
 	Key(int x, int y, DoubleWChar character);
 
 	/// <summary>
@@ -23,8 +22,5 @@ public:
 	/// </summary>
 	/// <param name="entity">The entity that is now on top</param>
 	virtual void OnEnter(Entity* entity) override;
-
-private:
-	bool m_pickedUp;
 };
 

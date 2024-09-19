@@ -16,7 +16,6 @@ public:
 	/// <param name="x">The target's x position</param>
 	/// <param name="y">The target's y position</param>
 	/// <param name="character">The target's character</param>
-	/// <param name="color">The target's color</param>
 	/// <param name="level">The level's reference</param>
 	Target(int x, int y, DoubleWChar character, Level& level);
 

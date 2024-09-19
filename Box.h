@@ -16,7 +16,6 @@ public:
 	/// <param name="x">The box's x position</param>
 	/// <param name="y">The box's y position</param>
 	/// <param name="character">The box's character</param>
-	/// <param name="color">The box's color</param>
 	Box(int x, int y, DoubleWChar character);
 
 	/// <summary>
