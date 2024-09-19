@@ -6,6 +6,8 @@
 #include "Box.h"
 #include "Target.h"
 #include "Teleporter.h"
+#include "Key.h"
+#include "Door.h"
 
 Level::Level() :
 	m_player(nullptr),
@@ -123,6 +125,7 @@ void Level::LoadLevelAtPath(const std::string& r_path)
 	m_grid = new Grid(width, height);
 	m_maxTargets = 0;
 	m_currentActivatedTargets = 0;
+	Door::open = false; 
 
 	// There will be 10 possible teleporters (0 - 9)
 	std::vector<Teleporter*> teleporters(10);
@@ -174,6 +177,12 @@ bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar, std::vector<Telep
 		return true;
 	case 'B':
 		newEntity = new Box(x, y, L'█', BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
+		break;
+	case 'K':
+		newEntity = new Key(x, y, L'K', BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
+		break;
+	case 'D':
+		newEntity = new Door(x, y, L'D', BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
 		break;
 	case 'T':
 		newEntity = new Target(x, y, L'○', BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_INTENSITY,*this);

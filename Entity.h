@@ -81,6 +81,13 @@ public:
 	/// <param name="y">The new Y position</param>
 	void SetPosition(int x, int y);
 
+	/// <summary>
+	/// Changes if the entity can be drawn or not
+	/// </summary>
+	/// <param name="canDraw">True if the entity can be drawn</param>
+	void SetDrawable(bool canDraw);
+
+
 protected:
 
 	bool m_canDraw;
