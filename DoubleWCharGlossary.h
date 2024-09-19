@@ -11,6 +11,7 @@ public:
 	const static DoubleWChar& PLAYER_CHAR;
 	const static DoubleWChar& BOX_CHAR;
 	const static DoubleWChar& TARGET_CHAR;
-	const static DoubleWChar& TELEPORTER_CHAR;
+	const static DoubleWChar& KEY_CHAR;
+	const static DoubleWChar& DOOR_CHAR;
 };
 

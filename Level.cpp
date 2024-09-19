@@ -176,10 +176,10 @@ bool Level::AddEntityAtIfNeeded(int x, int y, char entityChar, std::vector<Telep
 		newEntity = new Box(x, y, DoubleWCharGlossary::BOX_CHAR);
 		break;
 	case 'K':
-		newEntity = new Key(x, y, L'K', BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
+		newEntity = new Key(x, y, DoubleWCharGlossary::KEY_CHAR);
 		break;
 	case 'D':
-		newEntity = new Door(x, y, L'D', BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
+		newEntity = new Door(x, y, DoubleWCharGlossary::DOOR_CHAR);
 		break;
 	case 'T':
 		newEntity = new Target(x, y, DoubleWCharGlossary::TARGET_CHAR, *this);

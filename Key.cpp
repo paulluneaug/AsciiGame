@@ -2,8 +2,8 @@
 #include "Player.h"
 #include "Door.h"
 
-Key::Key(int x, int y, WCHAR character, WORD color)
-	:TriggerEntity(x,y,character,color),
+Key::Key(int x, int y, DoubleWChar character)
+	:TriggerEntity(x,y,character),
 	m_pickedUp(false)
 {
 }

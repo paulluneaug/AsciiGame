@@ -2,8 +2,8 @@
 
 bool Door::open = false;
 
-Door::Door(int x, int y, WCHAR character, WORD color)
-	:Entity(x,y,character,color)
+Door::Door(int x, int y, DoubleWChar character)
+	:Entity(x,y,character)
 {
 }
 

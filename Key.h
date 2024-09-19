@@ -16,7 +16,7 @@ public:
 	/// <param name="y">The key's y position</param>
 	/// <param name="character">The key's character</param>
 	/// <param name="color">The key's color</param>
-	Key(int x, int y, WCHAR character, WORD color);
+	Key(int x, int y, DoubleWChar character);
 
 	/// <summary>
 	/// Called when an entity walks on the key
