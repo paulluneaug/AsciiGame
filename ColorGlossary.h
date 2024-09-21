@@ -1,6 +1,10 @@
 #pragma once
 #include "Windows.h"
 
+/// <summary>
+/// Represents the game' colors
+/// They are static and can be accessed anywhere
+/// </summary>
 class ColorGlossary
 {
 public:

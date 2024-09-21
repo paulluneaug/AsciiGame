@@ -9,9 +9,6 @@
 #include "Grid.h"
 #include "Display.h"
 
-#define SCREEN_WIDTH 80
-#define SCREEN_HEIGHT 25
-
 /// <summary>
 /// Represents the Game and it's general logic
 /// </summary>
@@ -28,8 +25,6 @@ public:
 	/// Destroy a game
 	/// </summary>
 	~Game();
-
-
 
 	/// <summary>
 	/// Launches the game's loop
@@ -66,10 +61,25 @@ private:
 	/// <param name="event">The record to process</param>
 	bool KeyEventProc(KEY_EVENT_RECORD event);
 
+	/// <summary>
+	/// Loads the next level
+	/// </summary>
 	void LoadNextLevel();
+
+	/// <summary>
+	/// Reloads the current level
+	/// </summary>
 	void ReloadLevel();
+
+	/// <summary>
+	/// Load a level
+	/// </summary>
+	/// <param name="levelIndex">The level's index</param>
 	void LoadLevel(int levelIndex);
 
+	/// <summary>
+	/// Ends the game
+	/// </summary>
 	void FinishGame();
 };
 

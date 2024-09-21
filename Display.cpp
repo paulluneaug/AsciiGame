@@ -4,23 +4,23 @@
 
 Display::Display() 
 {
+	// Gets the output / input handles
 	m_hOutput = (HANDLE)GetStdHandle(STD_OUTPUT_HANDLE);
 	m_hInput = (HANDLE)GetStdHandle(STD_INPUT_HANDLE);
 
+	// Initialize the buffer
 	m_buffer = new CHAR_INFO[SCREEN_HEIGHT * SCREEN_WIDTH];
-
 	m_dwBufferSize = { SCREEN_WIDTH,SCREEN_HEIGHT };
 	m_dwBufferCoord = { 0, 0 };
 	m_rcRegion = { 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1 };
 
 	// Font
 	int fontSize = 20;
-
 	CONSOLE_FONT_INFOEX cfi;
 	cfi.cbSize = sizeof(cfi);
 	cfi.nFont = 0;
-	cfi.dwFontSize.X = fontSize;                   // Width of each character in the font
-	cfi.dwFontSize.Y = fontSize * 2;                  // Height
+	cfi.dwFontSize.X = fontSize;                   // Character width
+	cfi.dwFontSize.Y = fontSize * 2;                  // Character height
 	cfi.FontFamily = FF_DONTCARE;
 	cfi.FontWeight = FW_NORMAL;
 	SetCurrentConsoleFontEx(m_hOutput, false, &cfi);
@@ -31,15 +31,16 @@ Display::Display()
 	cursorInfo.bVisible = false;
 	SetConsoleCursorInfo(m_hOutput, &cursorInfo);
 
-
+	// Saves the current input mode
 	if (!GetConsoleMode(m_hInput, &m_fdwSaveOldMode))
 		ErrorExit("GetConsoleMode");
 
+	// Changes the current input mode
 	DWORD  fdwMode = ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT;
 	if (!SetConsoleMode(m_hInput, fdwMode))
 		ErrorExit("SetConsoleMode");
 
-
+	// Change the window style
 	HWND hwnd_console = GetConsoleWindow();
 	SetWindowPos(hwnd_console, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_DRAWFRAME);
 	ShowWindow(hwnd_console, SW_SHOW);
@@ -160,12 +161,12 @@ void Display::ErrorExit(LPCSTR error)
 void Display::GetCharForTile(unsigned char tile, DoubleWChar& r_outChars)
 {
 	switch (tile) {
-	case Grid::EMPTY_TILE:
-		r_outChars = DoubleWCharGlossary::EMPTY_TILE_CHAR;
-		return;
-	case Grid::WALL_TILE:
-		r_outChars = DoubleWCharGlossary::WALL_TILE_CHAR;
-		return;
+		case Grid::EMPTY_TILE:
+			r_outChars = DoubleWCharGlossary::EMPTY_TILE_CHAR;
+			return;
+		case Grid::WALL_TILE:
+			r_outChars = DoubleWCharGlossary::WALL_TILE_CHAR;
+			return;
 	}
 
 	r_outChars = DoubleWChar('?', '?', BACKGROUND_BLUE | BACKGROUND_RED | BACKGROUND_INTENSITY);

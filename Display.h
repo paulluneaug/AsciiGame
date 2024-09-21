@@ -1,8 +1,15 @@
 #pragma once
 #include "Level.h"
+
+/// <summary>
+/// Handles the display of the game
+/// </summary>
 class Display
 {
 public:
+
+	// Screen size in characters
+
 	static const int SCREEN_WIDTH = 80;
 	static const int SCREEN_HEIGHT = 25;
 
@@ -19,7 +26,14 @@ private:
 	SMALL_RECT m_rcRegion;
 
 public:
+	/// <summary>
+	/// Creates a new display
+	/// </summary>
 	Display();
+
+	/// <summary>
+	/// Destroy the display
+	/// </summary>
 	~Display();
 
 	/// <summary>
@@ -59,6 +73,10 @@ public:
 	/// <param name="entity">The entity</param>
 	void WriteEntityToBuffer(const Entity& entity);
 
+	/// <summary>
+	/// Gets the input handle of the console
+	/// </summary>
+	/// <returns>the input handle</returns>
 	const HANDLE& GetInputHandle() const;
 
 private:

@@ -1,4 +1,8 @@
 #pragma once
+
+/// <summary>
+/// Represents the keys used in game
+/// </summary>
 class KeyCode
 {
 public:

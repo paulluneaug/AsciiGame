@@ -5,15 +5,12 @@
 
 #include "DoubleWCharGlossary.h"
 
-Game::Game()
+Game::Game() :
+	m_titleScreen(true),
+	m_stoppedGame(false),
+	m_levelIndex(0)
 {
-	m_titleScreen = true;
-	m_stoppedGame = false;
-
-	m_levelIndex = 0;
-
 	m_display = new Display();
-
 	LoadLevel(m_levelIndex);
 }
 
@@ -70,16 +67,14 @@ bool Game::ProcessInputs(INPUT_RECORD  irInBuf[128])
 	}
 
 
-	// Dispatch the events to the appropriate handler.
-	bool processedInput = false;
+	// Search the inputs for a keyboard input
 	for (i = 0; i < cNumRead; i++)
 	{
 		if (irInBuf[i].EventType == KEY_EVENT) {
-			processedInput |= KeyEventProc(irInBuf[i].Event.KeyEvent);
-			break;
+			return KeyEventProc(irInBuf[i].Event.KeyEvent);
 		}
 	}
-	return processedInput;
+	return false;
 }
 
 void Game::UpdateEntities()

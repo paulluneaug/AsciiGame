@@ -2,6 +2,10 @@
 #include "DoubleWChar.h"
 #include "ColorGlossary.h"
 
+/// <summary>
+/// Represents the game's DoubleWChar
+/// One entity uses one DoubleWChar to be drawn
+/// </summary>
 class DoubleWCharGlossary
 {
 public:

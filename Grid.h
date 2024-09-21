@@ -12,10 +12,6 @@ public:
 	static const unsigned char WALL_TILE = 1;
 	static const unsigned char INVALID_TILE = 255;
 
-	static const WORD WALL_COLOR = BACKGROUND_RED | BACKGROUND_GREEN | FOREGROUND_RED | FOREGROUND_GREEN;
-	static const WORD DEFAULT_COLOR = BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_GREEN;
-	static const WORD EMPTY_COLOR = BACKGROUND_RED;
-
 private:
 	int m_width;
 	int m_height;

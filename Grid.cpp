@@ -2,9 +2,6 @@
 #include "Box.h"
 #include <iostream>
 
-//const unsigned char Grid::EMPTY_TILE = 0;
-//const unsigned char Grid::WALL_TILE = 1;
-//const unsigned char Grid::INVALID_TILE = 255;
 
 Grid::Grid(int width, int height) : m_width(width), m_height(height)
 {

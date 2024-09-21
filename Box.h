@@ -19,16 +19,6 @@ public:
 	Box(int x, int y, DoubleWChar character);
 
 	/// <summary>
-	/// Moves the box in the specified direction if possible
-	/// </summary>
-	/// <param name="dx">Delta X</param>
-	/// <param name="dy">Delta Y</param>
-	/// <param name="r_grid">The current level's grid</param>
-	/// <param name="r_allEntities">The current level's entities</param>
-	/// <returns>True if the box was able to move</returns>
-	bool Move(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r_allEntities) override;
-
-	/// <summary>
 	/// Computes if the box can move in a direction
 	/// </summary>
 	/// <param name="dx">Delta X</param>
@@ -37,8 +27,5 @@ public:
 	/// <param name="r_allEntities">The current level's entities</param>
 	/// <returns>True if the box can move</returns>
 	bool CanMoveTo(int dx, int dy, const Grid& r_grid, const std::vector<Entity*>& r_allEntities) const override;
-
-private:
-	Target* m_currentTarget;
 };
 

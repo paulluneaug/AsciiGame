@@ -103,7 +103,7 @@ public:
 	bool HasFinishedLevel() const;
 
 	/// <summary>
-	/// 
+	/// Checks if the level"s file was found
 	/// </summary>
 	/// <returns>True if the level file was found</returns>
 	bool HasFoundLevelFile() const;
